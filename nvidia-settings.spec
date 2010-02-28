@@ -1,13 +1,13 @@
 # We use the driver version as a snapshot internal number
 # The real version of the package remains 1.0
 # This will prevent missunderstanding and versioning changes on the nvidia driver
-%global nversion 190.42
+%global nversion 195.36.08
 #Possible replacement/complement:
 #http://willem.engen.nl/projects/disper/
 
 Name:           nvidia-settings
 Version:        1.0
-Release:        3.2%{?dist}
+Release:        3.3%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -85,6 +85,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Feb 28 2010 Nicolas Chauvet <kwizart@fedoraproject.org> - 1.0-3.3
+- Update internal version to 195.36.08
+
 * Wed Oct 21 2009 kwizart < kwizart at gmail.com > - 1.0-3.1
 - Update internal to 190.42
 

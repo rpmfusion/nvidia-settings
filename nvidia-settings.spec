@@ -35,8 +35,8 @@ BuildRequires:  libXxf86vm-devel
 BuildRequires:  libXext-devel
 BuildRequires:  libXv-devel
 #Needed for FBConfig table
-BuildRequires:  xorg-x11-drv-nvidia-devel
-#BuildRequires:   mesa-libGL-devel
+#BuildRequires:  xorg-x11-drv-nvidia-devel
+BuildRequires:   mesa-libGL-devel
 
 
 
@@ -89,7 +89,6 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Sun Feb 28 2010 Nicolas Chauvet <kwizart@fedoraproject.org> - 1.0-3.4
 - Update internal version to 195.36.08
-- Built using xorg-x11-drv-nvidia-devel
 
 * Wed Oct 21 2009 kwizart < kwizart at gmail.com > - 1.0-3.1
 - Update internal to 190.42

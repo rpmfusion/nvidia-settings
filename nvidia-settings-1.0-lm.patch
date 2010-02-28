@@ -1,0 +1,24 @@
+diff -up nvidia-settings-1.0/Makefile.default.lm nvidia-settings-1.0/Makefile.default
+--- nvidia-settings-1.0/Makefile.default.lm	2010-02-25 14:44:29.000000000 +0100
++++ nvidia-settings-1.0/Makefile.default	2010-02-28 21:21:54.925079138 +0100
+@@ -239,7 +239,7 @@ $(XNVCTRL_LIB):
+ 	$(MAKE) CFLAGS='$(ALL_CFLAGS)' LDFLAGS='$(ALL_LDFLAGS)' -C $(XNVCTRL_DIR)
+ 
+ $(NVIDIA_SETTINGS): $(OBJS) $(XNVCTRL_LIB) $(XF86PARSER_LIB)
+-	$(CC) $(OBJS) $(ALL_CFLAGS) $(ALL_LDFLAGS) $(XNVCTRL_LIB) $(XF86PARSER_LIB) -o $@
++	$(CC) $(OBJS) $(ALL_CFLAGS) $(ALL_LDFLAGS) $(XNVCTRL_LIB) $(XF86PARSER_LIB) -lm -ldl -o $@
+ 
+ .PHONY: $(XF86PARSER_LIB) dist clean clobber
+ 
+diff -up nvidia-settings-1.0/Makefile.lm nvidia-settings-1.0/Makefile
+--- nvidia-settings-1.0/Makefile.lm	2010-02-28 21:41:56.685076070 +0100
++++ nvidia-settings-1.0/Makefile	2010-02-28 21:41:58.532325821 +0100
+@@ -238,7 +238,7 @@ $(XNVCTRL_LIB):
+ 	$(MAKE) CFLAGS='$(ALL_CFLAGS)' LDFLAGS='$(ALL_LDFLAGS)' -C $(XNVCTRL_DIR)
+ 
+ $(NVIDIA_SETTINGS): $(OBJS) $(XNVCTRL_LIB) $(XF86PARSER_LIB)
+-	$(CC) $(OBJS) $(ALL_CFLAGS) $(ALL_LDFLAGS) $(XNVCTRL_LIB) $(XF86PARSER_LIB) -o $@
++	$(CC) $(OBJS) $(ALL_CFLAGS) $(ALL_LDFLAGS) $(XNVCTRL_LIB) $(XF86PARSER_LIB) -lm -ldl -o $@
+ 
+ .PHONY: $(XF86PARSER_LIB) dist clean clobber
+ 

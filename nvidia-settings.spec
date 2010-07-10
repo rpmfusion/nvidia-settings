@@ -1,23 +1,20 @@
 # We use the driver version as a snapshot internal number
 # The real version of the package remains 1.0
 # This will prevent missunderstanding and versioning changes on the nvidia driver
-%global nversion 195.36.24
+%global nversion 256.35
 #Possible replacement/complement:
 #http://willem.engen.nl/projects/disper/
 
 Name:           nvidia-settings
 Version:        1.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
-License:        MIT
+License:        GPLv2+
 URL:            ftp://download.nvidia.com/XFree86/nvidia-settings/
-Source0:        ftp://download.nvidia.com/XFree86/nvidia-settings/nvidia-settings-%{nversion}.tar.gz
-Source1:        nvidia-settings.desktop
-Patch0:         nvidia-settings-1.0-default.patch
-Patch1:         nvidia-settings-1.0-lm.patch
-Patch2:         03_do_not_exit_on_no_scanout.patch
+Source0:        ftp://download.nvidia.com/XFree86/nvidia-settings/nvidia-settings-%{nversion}.tar.bz2
+Patch0:         nvidia-settings-256.35-validate.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if 0%{?fedora} > 11 || 0%{?rhel} > 5
@@ -39,6 +36,8 @@ BuildRequires:  libXv-devel
 #BuildRequires:  xorg-x11-drv-nvidia-devel
 BuildRequires:   mesa-libGL-devel
 
+Provides: %{name}-nversion = %{nversion}
+
 
 
 %description
@@ -50,30 +49,35 @@ This communication is done with the NV-CONTROL X extension.
 nvidia-settings is compatible with driver up to %{nversion}.
 
 %prep
-%setup -q
-%patch0 -p1 -b .default
-%patch1 -p1 -b .lm
-%patch2 -p1 -b .noscanout
+%setup -q -n nvidia-settings-%{nversion}
+%patch0 -p1 -b .validate
 rm -rf src/libXNVCtrl/libXNVCtrl.a
 
-sed -i -e 's|# CFLAGS = -Wall|CFLAGS = $(INIT_CFLAGS)|' Makefile
-sed -i -e 's|# X11R6_DIR = /usr/X11R6|X11R6_DIR = %{_prefix}|' Makefile
-sed -i -e 's|CFLAGS = -Wall -g|CFLAGS = $(RPM_OPT_FLAGS)|' src/XF86Config-parser/Makefile
+sed -i -e 's|/usr/local|$(DESTDIR)/%{_prefix}|g' utils.mk
+sed -i -e 's|-lXxf86vm|-lXxf86vm -ldl -lm|g' Makefile
 
 %build
 # no job control
-make NVDEBUG=1 INIT_CFLAGS="$RPM_OPT_FLAGS -I/usr/include/nvidia -DX_XF86VidModeGetGammaRampSize"
+pushd src/libXNVCtrl
+  make
+popd
+make  \
+  NVDEBUG=1 \
+  NV_VERBOSE=1 \
+  X_LDFLAGS="-L%{_libdir}" \
+  CC_ONLY_CFLAGS="$RPM_OPT_FLAGS"
 
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install ROOT=$RPM_BUILD_ROOT INSTALL="install -p"
+make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
+
 # Desktop entry for nvidia-settings
 desktop-file-install --vendor "" \
     --dir $RPM_BUILD_ROOT%{_datadir}/applications/ \
-    %{SOURCE1}
+    doc/nvidia-settings.desktop
 
 
 %clean
@@ -89,6 +93,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Jul 10 2010 Nicolas Chauvet <kwizart@gmail.com> - 1.0-5
+- Update internal to 256.35
+- Use upstream desktop file (completed)
+- Provides %%{name}-nversion internal
+
 * Wed Apr 28 2010 Nicolas Chauvet <kwizart@fedoraproject.org> - 1.0-4
 - Update internal to 195.36.24
 - Avoid failure on NV_CTRL_NO_SCANOUT when not supported in legacy drivers. 

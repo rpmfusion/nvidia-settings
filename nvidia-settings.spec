@@ -1,13 +1,13 @@
 # We use the driver version as a snapshot internal number
 # The real version of the package remains 1.0
 # This will prevent missunderstanding and versioning changes on the nvidia driver
-%global nversion 256.53
+%global nversion 260.19.06
 #Possible replacement/complement:
 #http://willem.engen.nl/projects/disper/
 
 Name:           nvidia-settings
 Version:        1.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -15,6 +15,7 @@ License:        GPLv2+
 URL:            ftp://download.nvidia.com/XFree86/nvidia-settings/
 Source0:        ftp://download.nvidia.com/XFree86/nvidia-settings/nvidia-settings-%{nversion}.tar.bz2
 Patch0:         nvidia-settings-256.35-validate.patch
+Patch1:         03_do_not_exit_on_no_scanout.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if 0%{?fedora} > 11 || 0%{?rhel} > 5
@@ -51,6 +52,7 @@ nvidia-settings is compatible with driver up to %{nversion}.
 %prep
 %setup -q -n nvidia-settings-%{nversion}
 %patch0 -p1 -b .validate
+%patch1 -p1 -b .noscanout
 rm -rf src/libXNVCtrl/libXNVCtrl.a
 
 sed -i -e 's|/usr/local|$(DESTDIR)/%{_prefix}|g' utils.mk
@@ -93,6 +95,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Oct 10 2010 Nicolas Chauvet <kwizart@gmail.com> - 1.0-7
+- Update internal to 260.19.06
+- Restore noscanout patch
+
 * Mon Sep 06 2010 Nicolas Chauvet <kwizart@gmail.com> - 1.0-6
 - Update internal to 256.53
 

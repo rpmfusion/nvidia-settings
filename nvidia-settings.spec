@@ -7,7 +7,7 @@
 
 Name:           nvidia-settings
 Version:        1.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -95,6 +95,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Oct 14 2010 Nicolas Chauvet <kwizart@gmail.com> - 1.0-8
+- Update internal to 260.19.12
+
 * Sun Oct 10 2010 Nicolas Chauvet <kwizart@gmail.com> - 1.0-7
 - Update internal to 260.19.06
 - Restore noscanout patch

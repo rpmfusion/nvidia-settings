@@ -1,19 +1,19 @@
 # We use the driver version as a snapshot internal number
 # The real version of the package remains 1.0
 # This will prevent missunderstanding and versioning changes on the nvidia driver
-%global nversion 260.19.12
+%global nversion 260.19.29
 #Possible replacement/complement:
 #http://willem.engen.nl/projects/disper/
 
 Name:           nvidia-settings
 Version:        1.0
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
 License:        GPLv2+
 URL:            ftp://download.nvidia.com/XFree86/nvidia-settings/
-Source0:        ftp://download.nvidia.com/XFree86/nvidia-settings/nvidia-settings-%{nversion}.tar.bz2
+Source0:        http://cgit.freedesktop.org/~aplattner/nvidia-settings/snapshot/nvidia-settings-%{nversion}.tar.bz2
 Patch0:         nvidia-settings-256.35-validate.patch
 Patch1:         03_do_not_exit_on_no_scanout.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -95,6 +95,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Dec 16 2010 Nicolas Chauvet <kwizart@gmail.com> - 1.0-9
+- Update internal to 260.19.29
+
 * Thu Oct 14 2010 Nicolas Chauvet <kwizart@gmail.com> - 1.0-8
 - Update internal to 260.19.12
 

@@ -5,6 +5,8 @@
 #Possible replacement/complement:
 #http://willem.engen.nl/projects/disper/
 
+%global _default_patch_fuzz 2
+
 Name:           nvidia-settings
 Version:        1.0
 Release:        10%{?dist}

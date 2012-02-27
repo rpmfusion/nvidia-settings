@@ -1,7 +1,7 @@
 # We use the driver version as a snapshot internal number
 # The real version of the package remains 1.0
 # This will prevent missunderstanding and versioning changes on the nvidia driver
-%global nversion  290.10
+%global nversion  295.20
 #Possible replacement/complement:
 #http://willem.engen.nl/projects/disper/
 
@@ -9,7 +9,7 @@
 
 Name:           nvidia-settings
 Version:        1.0
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -97,6 +97,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Feb 27 2012 Nicolas Chauvet <kwizart@gmail.com> - 1.0-14
+- Update internal 295.20
+
 * Wed Nov 23 2011 Nicolas Chauvet <kwizart@gmail.com> - 1.0-13
 - Update internal 290.10
 

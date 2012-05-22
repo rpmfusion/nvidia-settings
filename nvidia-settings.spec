@@ -1,7 +1,7 @@
 # We use the driver version as a snapshot internal number
 # The real version of the package remains 1.0
 # This will prevent missunderstanding and versioning changes on the nvidia driver
-%global nversion  295.20
+%global nversion  302.11
 #Possible replacement/complement:
 #http://willem.engen.nl/projects/disper/
 
@@ -9,7 +9,7 @@
 
 Name:           nvidia-settings
 Version:        1.0
-Release:        14%{?dist}
+Release:        19%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -57,7 +57,7 @@ nvidia-settings is compatible with driver up to %{nversion}.
 %patch1 -p1 -b .noscanout
 rm -rf src/libXNVCtrl/libXNVCtrl.a
 
-sed -i -e 's|/usr/local|$(DESTDIR)/%{_prefix}|g' utils.mk
+sed -i -e 's|/usr/local|%{_prefix}|g' utils.mk
 sed -i -e 's|-lXxf86vm|-lXxf86vm -ldl -lm|g' Makefile
 
 %build
@@ -97,6 +97,22 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue May 22 2012 leigh scott <leigh123linux@googlemail.com> - 1.0-19
+- Update to 302.11
+
+* Tue May 22 2012 leigh scott <leigh123linux@googlemail.com> - 1.0-18
+- Update to 295.53
+
+* Thu May 03 2012 leigh scott <leigh123linux@googlemail.com> - 1.0-17
+- Update to 295.49
+
+* Wed Apr 11 2012 leigh scott <leigh123linux@googlemail.com> - 1.0-16
+- Update to 295.40
+- Fix source url
+
+* Thu Mar 22 2012 leigh scott <leigh123linux@googlemail.com> - 1.0-15
+- Update internal 295.33
+
 * Mon Feb 27 2012 Nicolas Chauvet <kwizart@gmail.com> - 1.0-14
 - Update internal 295.20
 

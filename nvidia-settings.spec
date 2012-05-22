@@ -1,7 +1,7 @@
 # We use the driver version as a snapshot internal number
 # The real version of the package remains 1.0
 # This will prevent missunderstanding and versioning changes on the nvidia driver
-%global nversion  295.49
+%global nversion  295.53
 #Possible replacement/complement:
 #http://willem.engen.nl/projects/disper/
 
@@ -9,7 +9,7 @@
 
 Name:           nvidia-settings
 Version:        1.0
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -97,6 +97,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue May 22 2012 leigh scott <leigh123linux@googlemail.com> - 1.0-18
+- Update to 295.53
+
 * Thu May 03 2012 leigh scott <leigh123linux@googlemail.com> - 1.0-17
 - Update to 295.49
 

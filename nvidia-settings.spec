@@ -9,7 +9,7 @@
 
 Name:           nvidia-settings
 Version:        1.0
-Release:        20%{?dist}
+Release:        19%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -97,11 +97,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Tue Jul 31 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-20
+* Tue Jul 31 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-19
 - Update to 304.30
-
-* Sat Jul 14 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-19
-- rebuilt
 
 * Tue May 22 2012 leigh scott <leigh123linux@googlemail.com> - 1.0-18
 - Update to 295.53

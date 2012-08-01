@@ -1,7 +1,7 @@
 # We use the driver version as a snapshot internal number
 # The real version of the package remains 1.0
 # This will prevent missunderstanding and versioning changes on the nvidia driver
-%global nversion  295.53
+%global nversion  304.30
 #Possible replacement/complement:
 #http://willem.engen.nl/projects/disper/
 
@@ -9,13 +9,13 @@
 
 Name:           nvidia-settings
 Version:        1.0
-Release:        18%{?dist}
+Release:        22%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
 License:        GPLv2+
 URL:            ftp://download.nvidia.com/XFree86/nvidia-settings/
-Source0:        ftp://download.nvidia.com/XFree86/nvidia-settings/nvidia-settings-%{nversion}.tar.bz2
+Source0:        http://cgit.freedesktop.org/~aplattner/nvidia-settings/snapshot/nvidia-settings-%{nversion}.tar.bz2
 Patch0:         nvidia-settings-256.35-validate.patch
 Patch1:         03_do_not_exit_on_no_scanout.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -57,7 +57,7 @@ nvidia-settings is compatible with driver up to %{nversion}.
 %patch1 -p1 -b .noscanout
 rm -rf src/libXNVCtrl/libXNVCtrl.a
 
-sed -i -e 's|/usr/local|$(DESTDIR)/%{_prefix}|g' utils.mk
+sed -i -e 's|/usr/local|%{_prefix}|g' utils.mk
 sed -i -e 's|-lXxf86vm|-lXxf86vm -ldl -lm|g' Makefile
 
 %build
@@ -97,6 +97,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jul 31 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-22
+- Update to 304.30
+
+* Sat Jul 14 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-19
+- rebuilt
+
 * Tue May 22 2012 leigh scott <leigh123linux@googlemail.com> - 1.0-18
 - Update to 295.53
 

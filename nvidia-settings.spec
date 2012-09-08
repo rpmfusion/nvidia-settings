@@ -18,6 +18,7 @@ URL:            ftp://download.nvidia.com/XFree86/nvidia-settings/
 Source0:        http://cgit.freedesktop.org/~aplattner/nvidia-settings/snapshot/nvidia-settings-%{nversion}.tar.bz2
 Patch0:         nvidia-settings-256.35-validate.patch
 Patch1:         03_do_not_exit_on_no_scanout.patch
+Patch2:         nvidia-settings-85ab38c897e266d1e9805e4d276916dceb0ad801.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if 0%{?fedora} > 11 || 0%{?rhel} > 5
@@ -34,9 +35,10 @@ BuildRequires:  gtk2-devel
 #BuildRequires:  libXNVCtrl-devel
 BuildRequires:  libXxf86vm-devel
 BuildRequires:  libXext-devel
+BuildRequires:  libXrandr-devel
 BuildRequires:  libXv-devel
 #Needed for FBConfig table
-#BuildRequires:  xorg-x11-drv-nvidia-devel
+BuildRequires:   xorg-x11-drv-nvidia-devel
 BuildRequires:   mesa-libGL-devel
 
 Provides: %{name}-nversion = %{nversion}
@@ -55,6 +57,7 @@ nvidia-settings is compatible with driver up to %{nversion}.
 %setup -q -n nvidia-settings-%{nversion}
 %patch0 -p1 -b .validate
 %patch1 -p1 -b .noscanout
+%patch2 -p1
 rm -rf src/libXNVCtrl/libXNVCtrl.a
 
 sed -i -e 's|/usr/local|%{_prefix}|g' utils.mk
@@ -69,7 +72,9 @@ make  \
   NVDEBUG=1 \
   NV_VERBOSE=1 \
   X_LDFLAGS="-L%{_libdir}" \
-  CC_ONLY_CFLAGS="$RPM_OPT_FLAGS"
+  CC_ONLY_CFLAGS="$RPM_OPT_FLAGS" || :
+
+make -C samples
 
 
 %install
@@ -99,6 +104,8 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Wed Sep 05 2012 Nicolas Chauvet <kwizart@gmail.com> - 1.0-24
 - Update to 304.43
+- Add BR libXrandr-devel
+- Add missing files
 
 * Tue Aug 14 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-23
 - Update to 304.37

@@ -18,7 +18,6 @@ URL:            ftp://download.nvidia.com/XFree86/nvidia-settings/
 Source0:        http://cgit.freedesktop.org/~aplattner/nvidia-settings/snapshot/nvidia-settings-%{nversion}.tar.bz2
 Patch0:         nvidia-settings-256.35-validate.patch
 Patch1:         03_do_not_exit_on_no_scanout.patch
-Patch2:         nvidia-settings-85ab38c897e266d1e9805e4d276916dceb0ad801.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if 0%{?fedora} > 11 || 0%{?rhel} > 5
@@ -57,7 +56,6 @@ nvidia-settings is compatible with driver up to %{nversion}.
 %setup -q -n nvidia-settings-%{nversion}
 %patch0 -p1 -b .validate
 %patch1 -p1 -b .noscanout
-%patch2 -p1
 rm -rf src/libXNVCtrl/libXNVCtrl.a
 
 sed -i -e 's|/usr/local|%{_prefix}|g' utils.mk

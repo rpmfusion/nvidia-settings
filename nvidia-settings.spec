@@ -1,7 +1,7 @@
 # We use the driver version as a snapshot internal number
 # The real version of the package remains 1.0
 # This will prevent missunderstanding and versioning changes on the nvidia driver
-%global nversion  304.43
+%global nversion  304.48
 #Possible replacement/complement:
 #http://willem.engen.nl/projects/disper/
 
@@ -9,7 +9,7 @@
 
 Name:           nvidia-settings
 Version:        1.0
-Release:        24%{?dist}
+Release:        25%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -18,7 +18,6 @@ URL:            ftp://download.nvidia.com/XFree86/nvidia-settings/
 Source0:        http://cgit.freedesktop.org/~aplattner/nvidia-settings/snapshot/nvidia-settings-%{nversion}.tar.bz2
 Patch0:         nvidia-settings-256.35-validate.patch
 Patch1:         03_do_not_exit_on_no_scanout.patch
-Patch2:         nvidia-settings-85ab38c897e266d1e9805e4d276916dceb0ad801.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if 0%{?fedora} > 11 || 0%{?rhel} > 5
@@ -57,7 +56,6 @@ nvidia-settings is compatible with driver up to %{nversion}.
 %setup -q -n nvidia-settings-%{nversion}
 %patch0 -p1 -b .validate
 %patch1 -p1 -b .noscanout
-%patch2 -p1
 rm -rf src/libXNVCtrl/libXNVCtrl.a
 
 sed -i -e 's|/usr/local|%{_prefix}|g' utils.mk
@@ -102,6 +100,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Sep 15 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-25
+- Update to 304.48
+
 * Wed Sep 05 2012 Nicolas Chauvet <kwizart@gmail.com> - 1.0-24
 - Update to 304.43
 - Add BR libXrandr-devel

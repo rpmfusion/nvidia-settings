@@ -1,7 +1,7 @@
 # We use the driver version as a snapshot internal number
 # The real version of the package remains 1.0
 # This will prevent missunderstanding and versioning changes on the nvidia driver
-%global nversion  304.51
+%global nversion  304.48
 #Possible replacement/complement:
 #http://willem.engen.nl/projects/disper/
 

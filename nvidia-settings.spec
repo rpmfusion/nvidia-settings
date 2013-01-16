@@ -1,7 +1,7 @@
 # We use the driver version as a snapshot internal number
 # The real version of the package remains 1.0
 # This will prevent missunderstanding and versioning changes on the nvidia driver
-%global nversion  310.19
+%global nversion  313.18
 #Possible replacement/complement:
 #http://willem.engen.nl/projects/disper/
 
@@ -9,7 +9,7 @@
 
 Name:           nvidia-settings
 Version:        1.0
-Release:        28%{?dist}
+Release:        29%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -100,6 +100,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jan 16 2013 Leigh Scott <leigh123linux@googlemail.com> - 1.0-29
+- Update to 313.18
+
 * Sat Dec 01 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-28
 - Update to 310.19
 

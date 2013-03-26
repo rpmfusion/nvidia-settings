@@ -1,15 +1,13 @@
 # We use the driver version as a snapshot internal number
 # The real version of the package remains 1.0
 # This will prevent missunderstanding and versioning changes on the nvidia driver
-%global nversion  313.18
-#Possible replacement/complement:
-#http://willem.engen.nl/projects/disper/
-
-%global _default_patch_fuzz 2
+%global nversion  313.26
+%global npriority $(echo %{nversion} | cut -f 1 -d ".")
+%global nserie    current
 
 Name:           nvidia-settings
 Version:        1.0
-Release:        29%{?dist}
+Release:        30%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -17,7 +15,6 @@ License:        GPLv2+
 URL:            ftp://download.nvidia.com/XFree86/nvidia-settings/
 Source0:        http://cgit.freedesktop.org/~aplattner/nvidia-settings/snapshot/nvidia-settings-%{nversion}.tar.bz2
 Patch0:         nvidia-settings-256.35-validate.patch
-Patch1:         03_do_not_exit_on_no_scanout.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if 0%{?fedora} > 11 || 0%{?rhel} > 5
@@ -36,11 +33,16 @@ BuildRequires:  libXxf86vm-devel
 BuildRequires:  libXext-devel
 BuildRequires:  libXrandr-devel
 BuildRequires:  libXv-devel
-#Needed for FBConfig table
-BuildRequires:   xorg-x11-drv-nvidia-devel
-BuildRequires:   mesa-libGL-devel
+#Needed for FBConfig table - Uneeded if GLX_VERSION_1_3
+#BuildRequires: xorg-x11-drv-nvidia-devel
+BuildRequires:  mesa-libGL-devel
 
-Provides: %{name}-nversion = %{nversion}
+Requires: nvidia-settings-desktop
+Requires(post): %{_sbindir}/alternatives
+Requires(postun): %{_sbindir}/alternatives
+
+Provides: nvidia-settings-nversion = %{nversion}
+Provides: nvidia-304xx-settings = %{nversion}
 
 
 
@@ -52,10 +54,17 @@ and updating state as appropriate.
 This communication is done with the NV-CONTROL X extension.
 nvidia-settings is compatible with driver up to %{nversion}.
 
+%package desktop
+Summary:         Desktop file for %{name}
+Group:           Applications/System
+
+%description desktop
+This package provides the desktop file of the %{name} package.
+
+
 %prep
 %setup -q -n nvidia-settings-%{nversion}
 %patch0 -p1 -b .validate
-%patch1 -p1 -b .noscanout
 rm -rf src/libXNVCtrl/libXNVCtrl.a
 
 sed -i -e 's|/usr/local|%{_prefix}|g' utils.mk
@@ -63,6 +72,7 @@ sed -i -e 's|-lXxf86vm|-lXxf86vm -ldl -lm|g' Makefile
 
 %build
 # no job control
+export CFLAGS="$RPM_OPT_FLAGS"
 pushd src/libXNVCtrl
   make
 popd
@@ -71,8 +81,6 @@ make  \
   NV_VERBOSE=1 \
   X_LDFLAGS="-L%{_libdir}" \
   CC_ONLY_CFLAGS="$RPM_OPT_FLAGS" || :
-
-make -C samples
 
 
 %install
@@ -86,20 +94,53 @@ desktop-file-install --vendor "" \
     --dir $RPM_BUILD_ROOT%{_datadir}/applications/ \
     doc/nvidia-settings.desktop
 
+#Move the binary elsewhere
+mv $RPM_BUILD_ROOT%{_bindir}/nvidia-settings \
+    $RPM_BUILD_ROOT%{_bindir}/nvidia-settings-%{nserie}
+touch $RPM_BUILD_ROOT%{_bindir}/nvidia-settings
+chmod 0755 $RPM_BUILD_ROOT%{_bindir}/nvidia-settings*
+
+#Move the manpage elsewhere
+mv $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings.1.gz \
+    $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings-%{nserie}.1.gz
+touch $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings.1.gz
+chmod 0644 $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings*
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+%{_sbindir}/alternatives \
+  --install %{_bindir}/nvidia-settings nvidia-settings %{_bindir}/nvidia-settings-%{nserie} %{npriority} \
+  --slave %{_mandir}/man1/nvidia-settings.1.gz nvidia-settings.1.gz %{_mandir}/man1/nvidia-settings-%{nserie}.1.gz || :
+
+%postun
+if [ $1 -eq 0 ]; then
+  %{_sbindir}/alternatives --remove nvidia-settings %{_bindir}/%{name}-%{nserie}
+fi || :
 
 %files
 %defattr(-,root,root,-)
 %doc doc/*.txt
-%{_bindir}/nvidia-settings
-%{_datadir}/applications/*nvidia-settings.desktop
-%{_mandir}/man1/nvidia-settings.1.gz
+%ghost %{_bindir}/nvidia-settings
+%{_bindir}/nvidia-settings-%{nserie}
+%ghost %{_mandir}/man1/nvidia-settings.1.gz
+%{_mandir}/man1/nvidia-settings-%{nserie}.1.gz
 
+%files desktop
+%defattr(-,root,root,-)
+%{_datadir}/applications/*nvidia-settings.desktop
 
 %changelog
+* Mon Mar 11 2013 Nicolas Chauvet <kwizart@gmail.com> - 1.0-30
+- Update to 313.26
+- Add Alternatives support
+- Drop patch needed for older 173xx/96xx series.
+  Thoses will use nvidia-settings-legacy instead
+- Build libXNVCtrl with our %%optflags
+- Split the desktop file in a sub-package
+
 * Wed Jan 16 2013 Leigh Scott <leigh123linux@googlemail.com> - 1.0-29
 - Update to 313.18
 

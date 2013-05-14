@@ -1,13 +1,13 @@
 # We use the driver version as a snapshot internal number
 # The real version of the package remains 1.0
 # This will prevent missunderstanding and versioning changes on the nvidia driver
-%global nversion  313.26
+%global nversion  319.17
 %global npriority $(echo %{nversion} | cut -f 1 -d ".")
 %global nserie    current
 
 Name:           nvidia-settings
 Version:        1.0
-Release:        30%{?dist}
+Release:        31%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -33,6 +33,7 @@ BuildRequires:  libXxf86vm-devel
 BuildRequires:  libXext-devel
 BuildRequires:  libXrandr-devel
 BuildRequires:  libXv-devel
+BuildRequires:  libvdpau-devel
 #Needed for FBConfig table - Uneeded if GLX_VERSION_1_3
 #BuildRequires: xorg-x11-drv-nvidia-devel
 BuildRequires:  mesa-libGL-devel
@@ -133,6 +134,9 @@ fi || :
 %{_datadir}/applications/*nvidia-settings.desktop
 
 %changelog
+* Mon May 13 2013 Leigh Scott <leigh123linux@googlemail.com> - 1.0-31
+- Update to 319.17
+
 * Mon Mar 11 2013 Nicolas Chauvet <kwizart@gmail.com> - 1.0-30
 - Update to 313.26
 - Add Alternatives support

@@ -237,7 +237,7 @@ fi || :
 * Wed Oct 21 2009 kwizart < kwizart at gmail.com > - 1.0-3.1
 - Update internal to 190.42
 
-* Thu Jul 15 2009 kwizart < kwizart at gmail.com > - 1.0-3
+* Wed Jul 15 2009 kwizart < kwizart at gmail.com > - 1.0-3
 - Update internal to 185.18.14
 
 * Tue Mar  3 2009 kwizart < kwizart at gmail.com > - 1.0-2.1

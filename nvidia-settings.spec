@@ -34,6 +34,7 @@ BuildRequires:  libXext-devel
 BuildRequires:  libXrandr-devel
 BuildRequires:  libXv-devel
 BuildRequires:  libvdpau-devel
+BuildRequires:  m4
 #Needed for FBConfig table - Uneeded if GLX_VERSION_1_3
 #BuildRequires: xorg-x11-drv-nvidia-devel
 BuildRequires:  mesa-libGL-devel
@@ -136,6 +137,7 @@ fi || :
 %changelog
 * Fri May 24 2013 Leigh Scott <leigh123linux@googlemail.com> - 1.0-32
 - Update to 319.23
+- add build requires m4
 
 * Mon May 13 2013 Leigh Scott <leigh123linux@googlemail.com> - 1.0-31
 - Update to 319.17

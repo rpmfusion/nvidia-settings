@@ -1,13 +1,13 @@
 # We use the driver version as a snapshot internal number
 # The real version of the package remains 1.0
 # This will prevent missunderstanding and versioning changes on the nvidia driver
-%global nversion  319.17
+%global nversion  319.23
 %global npriority $(echo %{nversion} | cut -f 1 -d ".")
 %global nserie    current
 
 Name:           nvidia-settings
 Version:        1.0
-Release:        31%{?dist}
+Release:        32%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -135,6 +135,9 @@ fi || :
 %{_datadir}/applications/*nvidia-settings.desktop
 
 %changelog
+* Fri May 24 2013 Leigh Scott <leigh123linux@googlemail.com> - 1.0-32
+- Update to 319.23
+
 * Mon May 13 2013 Leigh Scott <leigh123linux@googlemail.com> - 1.0-31
 - Update to 319.17
 - add build requires m4

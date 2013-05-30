@@ -9,7 +9,7 @@
 
 Name:           nvidia-settings
 Version:        1.0
-Release:        28%{?dist}.1
+Release:        29%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -37,7 +37,7 @@ BuildRequires:  libXext-devel
 BuildRequires:  libXrandr-devel
 BuildRequires:  libXv-devel
 #Needed for FBConfig table
-#BuildRequires:   xorg-x11-drv-nvidia-devel
+BuildRequires:   xorg-x11-drv-nvidia-devel
 BuildRequires:   mesa-libGL-devel
 
 Provides: %{name}-nversion = %{nversion}
@@ -101,10 +101,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Thu May 30 2013 Nicolas Chauvet <kwizart@gmail.com> - 1.0-28.1
-- bootstrap
-
-* Thu May 30 2013 Nicolas Chauvet <kwizart@gmail.com> - 1.0-28
+* Thu May 30 2013 Nicolas Chauvet <kwizart@gmail.com> - 1.0-29
 - Update to 304.88
 - Provide nvidia-304xx-settings for the 304xx serie
 

@@ -1,7 +1,7 @@
 # We use the driver version as a snapshot internal number
 # The real version of the package remains 1.0
 # This will prevent missunderstanding and versioning changes on the nvidia driver
-%global nversion  304.60
+%global nversion  304.88
 #Possible replacement/complement:
 #http://willem.engen.nl/projects/disper/
 
@@ -9,7 +9,7 @@
 
 Name:           nvidia-settings
 Version:        1.0
-Release:        27%{?dist}
+Release:        28%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -41,6 +41,7 @@ BuildRequires:   xorg-x11-drv-nvidia-devel
 BuildRequires:   mesa-libGL-devel
 
 Provides: %{name}-nversion = %{nversion}
+Provides: nvidia-304xx-settings = %{nversion}
 
 
 
@@ -100,6 +101,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu May 30 2013 Nicolas Chauvet <kwizart@gmail.com> - 1.0-28
+- Update to 304.88
+- Provide nvidia-304xx-settings for the 304xx serie
+
 * Thu Oct 18 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-27
 - Update to 304.60
 

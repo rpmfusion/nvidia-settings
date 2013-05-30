@@ -1,7 +1,7 @@
 # We use the driver version as a snapshot internal number
 # The real version of the package remains 1.0
 # This will prevent missunderstanding and versioning changes on the nvidia driver
-%global nversion  304.60
+%global nversion  304.88
 #Possible replacement/complement:
 #http://willem.engen.nl/projects/disper/
 
@@ -9,7 +9,7 @@
 
 Name:           nvidia-settings
 Version:        1.0
-Release:        22%{?dist}
+Release:        29%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -34,12 +34,14 @@ BuildRequires:  gtk2-devel
 #BuildRequires:  libXNVCtrl-devel
 BuildRequires:  libXxf86vm-devel
 BuildRequires:  libXext-devel
+BuildRequires:  libXrandr-devel
 BuildRequires:  libXv-devel
 #Needed for FBConfig table
-#BuildRequires:  xorg-x11-drv-nvidia-devel
+BuildRequires:   xorg-x11-drv-nvidia-devel
 BuildRequires:   mesa-libGL-devel
 
 Provides: %{name}-nversion = %{nversion}
+Provides: nvidia-304xx-settings = %{nversion}
 
 
 
@@ -69,7 +71,9 @@ make  \
   NVDEBUG=1 \
   NV_VERBOSE=1 \
   X_LDFLAGS="-L%{_libdir}" \
-  CC_ONLY_CFLAGS="$RPM_OPT_FLAGS"
+  CC_ONLY_CFLAGS="$RPM_OPT_FLAGS" || :
+
+make -C samples
 
 
 %install
@@ -97,17 +101,38 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Thu Oct 25 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-22
+* Thu May 30 2013 Nicolas Chauvet <kwizart@gmail.com> - 1.0-29
+- Update to 304.88
+- Provide nvidia-304xx-settings for the 304xx serie
+
+* Thu Oct 18 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-27
 - Update to 304.60
 
-* Thu Oct 11 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-21
+* Mon Sep 24 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-26
 - Update to 304.51
 
-* Tue Aug 14 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-20
+* Sat Sep 15 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-25
+- Update to 304.48
+
+* Wed Sep 05 2012 Nicolas Chauvet <kwizart@gmail.com> - 1.0-24
+- Update to 304.43
+- Add BR libXrandr-devel
+- Add missing files
+
+* Tue Aug 14 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-23
 - Update to 304.37
 
-* Tue Jul 31 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-19
+* Tue Jul 31 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-22
 - Update to 304.30
+
+* Sat Jul 14 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-21
+- Update to 304.22
+
+* Sun Jun 17 2012 leigh scott <leigh123linux@googlemail.com> - 1.0-20
+- Update to 302.17
+
+* Tue May 22 2012 leigh scott <leigh123linux@googlemail.com> - 1.0-19
+- Update to 302.11
 
 * Tue May 22 2012 leigh scott <leigh123linux@googlemail.com> - 1.0-18
 - Update to 295.53

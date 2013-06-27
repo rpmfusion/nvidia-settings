@@ -7,7 +7,7 @@
 
 Name:           nvidia-settings
 Version:        1.0
-Release:        32%{?dist}
+Release:        33%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -135,6 +135,9 @@ fi || :
 %{_datadir}/applications/*nvidia-settings.desktop
 
 %changelog
+* Thu Jun 27 2013 Nicolas Chauvet <kwizart@gmail.com> - 1.0-33
+- Update to 319.32
+
 * Fri May 24 2013 Leigh Scott <leigh123linux@googlemail.com> - 1.0-32
 - Update to 319.23
 

@@ -1,7 +1,7 @@
 # We use the driver version as a snapshot internal number
 # The real version of the package remains 1.0
 # This will prevent missunderstanding and versioning changes on the nvidia driver
-%global nversion  319.23
+%global nversion  319.32
 %global npriority $(echo %{nversion} | cut -f 1 -d ".")
 %global nserie    current
 
@@ -13,7 +13,7 @@ Summary:        Configure the NVIDIA graphics driver
 Group:          Applications/System
 License:        GPLv2+
 URL:            ftp://download.nvidia.com/XFree86/nvidia-settings/
-Source0:        http://cgit.freedesktop.org/~aplattner/nvidia-settings/snapshot/nvidia-settings-%{nversion}.tar.bz2
+Source0:        ftp://download.nvidia.com/XFree86/nvidia-settings/nvidia-settings-%{nversion}.tar.bz2
 Patch0:         nvidia-settings-256.35-validate.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -137,10 +137,10 @@ fi || :
 %changelog
 * Fri May 24 2013 Leigh Scott <leigh123linux@googlemail.com> - 1.0-32
 - Update to 319.23
-- add build requires m4
 
 * Mon May 13 2013 Leigh Scott <leigh123linux@googlemail.com> - 1.0-31
 - Update to 319.17
+- add build requires m4
 
 * Mon Mar 11 2013 Nicolas Chauvet <kwizart@gmail.com> - 1.0-30
 - Update to 313.26
@@ -242,7 +242,7 @@ fi || :
 * Wed Oct 21 2009 kwizart < kwizart at gmail.com > - 1.0-3.1
 - Update internal to 190.42
 
-* Thu Jul 15 2009 kwizart < kwizart at gmail.com > - 1.0-3
+* Wed Jul 15 2009 kwizart < kwizart at gmail.com > - 1.0-3
 - Update internal to 185.18.14
 
 * Tue Mar  3 2009 kwizart < kwizart at gmail.com > - 1.0-2.1

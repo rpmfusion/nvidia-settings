@@ -1,7 +1,7 @@
 # We use the driver version as a snapshot internal number
 # The real version of the package remains 1.0
 # This will prevent missunderstanding and versioning changes on the nvidia driver
-%global nversion  319.23
+%global nversion  319.32
 %global npriority $(echo %{nversion} | cut -f 1 -d ".")
 %global nserie    current
 
@@ -13,7 +13,7 @@ Summary:        Configure the NVIDIA graphics driver
 Group:          Applications/System
 License:        GPLv2+
 URL:            ftp://download.nvidia.com/XFree86/nvidia-settings/
-Source0:        http://cgit.freedesktop.org/~aplattner/nvidia-settings/snapshot/nvidia-settings-%{nversion}.tar.bz2
+Source0:        ftp://download.nvidia.com/XFree86/nvidia-settings/nvidia-settings-%{nversion}.tar.bz2
 Patch0:         nvidia-settings-256.35-validate.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 

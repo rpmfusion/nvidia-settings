@@ -6,8 +6,8 @@
 %global nserie    current
 
 Name:           nvidia-settings
-Version:        1.0
-Release:        33%{?dist}
+Version:        %{nversion}
+Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -18,7 +18,7 @@ Patch0:         nvidia-settings-256.35-validate.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if 0%{?fedora} > 11 || 0%{?rhel} > 5
-ExclusiveArch: i686 x86_64
+ExclusiveArch: i686 x86_64 armv7hl
 %else 0%{?fedora} == 11
 ExclusiveArch: i586 x86_64
 %else
@@ -39,12 +39,11 @@ BuildRequires:  m4
 #BuildRequires: xorg-x11-drv-nvidia-devel
 BuildRequires:  mesa-libGL-devel
 
-Requires: nvidia-settings-desktop
-Requires(post): %{_sbindir}/alternatives
-Requires(postun): %{_sbindir}/alternatives
+Obsoletes: nvidia-settings-desktop < 319.32
+#Requires(post): %{_sbindir}/alternatives
+#Requires(postun): %{_sbindir}/alternatives
 
 Provides: nvidia-settings-nversion = %{nversion}
-Provides: nvidia-304xx-settings = %{nversion}
 
 
 
@@ -56,12 +55,12 @@ and updating state as appropriate.
 This communication is done with the NV-CONTROL X extension.
 nvidia-settings is compatible with driver up to %{nversion}.
 
-%package desktop
-Summary:         Desktop file for %{name}
-Group:           Applications/System
-
-%description desktop
-This package provides the desktop file of the %{name} package.
+#package desktop
+#Summary:         Desktop file for %{name}
+#Group:           Applications/System
+#
+#description desktop
+#This package provides the desktop file of the %{name} package.
 
 
 %prep
@@ -92,7 +91,7 @@ make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 
 # Desktop entry for nvidia-settings
-desktop-file-install --vendor "" \
+desktop-file-install --vendor "rpmfusion" \
     --dir $RPM_BUILD_ROOT%{_datadir}/applications/ \
     doc/nvidia-settings.desktop
 
@@ -113,28 +112,31 @@ chmod 0644 $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings*
 rm -rf $RPM_BUILD_ROOT
 
 %post
-%{_sbindir}/alternatives \
-  --install %{_bindir}/nvidia-settings nvidia-settings %{_bindir}/nvidia-settings-%{nserie} %{npriority} \
-  --slave %{_mandir}/man1/nvidia-settings.1.gz nvidia-settings.1.gz %{_mandir}/man1/nvidia-settings-%{nserie}.1.gz || :
+#{_sbindir}/alternatives \
+#  --install %{_bindir}/nvidia-settings nvidia-settings %{_bindir}/nvidia-settings-%{nserie} %{npriority} \
+#  --slave %{_mandir}/man1/nvidia-settings.1.gz nvidia-settings.1.gz %{_mandir}/man1/nvidia-settings-%{nserie}.1.gz || :
+
 
 %postun
-if [ $1 -eq 0 ]; then
-  %{_sbindir}/alternatives --remove nvidia-settings %{_bindir}/%{name}-%{nserie}
-fi || :
+#if [ $1 -eq 0 ]; then
+  %{_sbindir}/alternatives --remove nvidia-settings %{_bindir}/%{name}-%{nserie} &>/dev/null  || :
+#fi || :
 
 %files
 %defattr(-,root,root,-)
 %doc doc/*.txt
-%ghost %{_bindir}/nvidia-settings
+#ghost %{_bindir}/nvidia-settings
 %{_bindir}/nvidia-settings-%{nserie}
-%ghost %{_mandir}/man1/nvidia-settings.1.gz
+#ghost %{_mandir}/man1/nvidia-settings.1.gz
 %{_mandir}/man1/nvidia-settings-%{nserie}.1.gz
 
-%files desktop
-%defattr(-,root,root,-)
-%{_datadir}/applications/*nvidia-settings.desktop
+%exclude %{_datadir}/applications/*nvidia-settings.desktop
 
 %changelog
+* Sun Jul 21 2013 Nicolas Chauvet <kwizart@gmail.com> - 319.32-1
+- Build an empty package to workaround yum issue with obsoletes
+  using nvidia-settings-current build from sources binary
+
 * Thu Jun 27 2013 Nicolas Chauvet <kwizart@gmail.com> - 1.0-33
 - Update to 319.32
 

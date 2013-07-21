@@ -1,27 +1,24 @@
 # We use the driver version as a snapshot internal number
 # The real version of the package remains 1.0
 # This will prevent missunderstanding and versioning changes on the nvidia driver
-%global nversion  304.88
-#Possible replacement/complement:
-#http://willem.engen.nl/projects/disper/
-
-%global _default_patch_fuzz 2
+%global nversion  319.32
+%global npriority $(echo %{nversion} | cut -f 1 -d ".")
+%global nserie    current
 
 Name:           nvidia-settings
-Version:        1.0
-Release:        29%{?dist}
+Version:        %{nversion}
+Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
 License:        GPLv2+
 URL:            ftp://download.nvidia.com/XFree86/nvidia-settings/
-Source0:        http://cgit.freedesktop.org/~aplattner/nvidia-settings/snapshot/nvidia-settings-%{nversion}.tar.bz2
+Source0:        ftp://download.nvidia.com/XFree86/nvidia-settings/nvidia-settings-%{nversion}.tar.bz2
 Patch0:         nvidia-settings-256.35-validate.patch
-Patch1:         03_do_not_exit_on_no_scanout.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if 0%{?fedora} > 11 || 0%{?rhel} > 5
-ExclusiveArch: i686 x86_64
+ExclusiveArch: i686 x86_64 armv7hl
 %else 0%{?fedora} == 11
 ExclusiveArch: i586 x86_64
 %else
@@ -36,12 +33,17 @@ BuildRequires:  libXxf86vm-devel
 BuildRequires:  libXext-devel
 BuildRequires:  libXrandr-devel
 BuildRequires:  libXv-devel
-#Needed for FBConfig table
-BuildRequires:   xorg-x11-drv-nvidia-devel
-BuildRequires:   mesa-libGL-devel
+BuildRequires:  libvdpau-devel
+BuildRequires:  m4
+#Needed for FBConfig table - Uneeded if GLX_VERSION_1_3
+#BuildRequires: xorg-x11-drv-nvidia-devel
+BuildRequires:  mesa-libGL-devel
 
-Provides: %{name}-nversion = %{nversion}
-Provides: nvidia-304xx-settings = %{nversion}
+Obsoletes: nvidia-settings-desktop < 319.32
+#Requires(post): %{_sbindir}/alternatives
+#Requires(postun): %{_sbindir}/alternatives
+
+Provides: nvidia-settings-nversion = %{nversion}
 
 
 
@@ -53,10 +55,17 @@ and updating state as appropriate.
 This communication is done with the NV-CONTROL X extension.
 nvidia-settings is compatible with driver up to %{nversion}.
 
+#package desktop
+#Summary:         Desktop file for %{name}
+#Group:           Applications/System
+#
+#description desktop
+#This package provides the desktop file of the %{name} package.
+
+
 %prep
 %setup -q -n nvidia-settings-%{nversion}
 %patch0 -p1 -b .validate
-%patch1 -p1 -b .noscanout
 rm -rf src/libXNVCtrl/libXNVCtrl.a
 
 sed -i -e 's|/usr/local|%{_prefix}|g' utils.mk
@@ -64,6 +73,7 @@ sed -i -e 's|-lXxf86vm|-lXxf86vm -ldl -lm|g' Makefile
 
 %build
 # no job control
+export CFLAGS="$RPM_OPT_FLAGS"
 pushd src/libXNVCtrl
   make
 popd
@@ -73,8 +83,6 @@ make  \
   X_LDFLAGS="-L%{_libdir}" \
   CC_ONLY_CFLAGS="$RPM_OPT_FLAGS" || :
 
-make -C samples
-
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -83,30 +91,78 @@ make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 
 # Desktop entry for nvidia-settings
-desktop-file-install --vendor "" \
+desktop-file-install --vendor "rpmfusion" \
     --dir $RPM_BUILD_ROOT%{_datadir}/applications/ \
     doc/nvidia-settings.desktop
+
+#Move the binary elsewhere
+mv $RPM_BUILD_ROOT%{_bindir}/nvidia-settings \
+    $RPM_BUILD_ROOT%{_bindir}/nvidia-settings-%{nserie}
+touch $RPM_BUILD_ROOT%{_bindir}/nvidia-settings
+chmod 0755 $RPM_BUILD_ROOT%{_bindir}/nvidia-settings*
+
+#Move the manpage elsewhere
+mv $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings.1.gz \
+    $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings-%{nserie}.1.gz
+touch $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings.1.gz
+chmod 0644 $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings*
 
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+#{_sbindir}/alternatives \
+#  --install %{_bindir}/nvidia-settings nvidia-settings %{_bindir}/nvidia-settings-%{nserie} %{npriority} \
+#  --slave %{_mandir}/man1/nvidia-settings.1.gz nvidia-settings.1.gz %{_mandir}/man1/nvidia-settings-%{nserie}.1.gz || :
+
+
+%postun
+#if [ $1 -eq 0 ]; then
+  %{_sbindir}/alternatives --remove nvidia-settings %{_bindir}/%{name}-%{nserie} &>/dev/null  || :
+#fi || :
 
 %files
 %defattr(-,root,root,-)
 %doc doc/*.txt
-%{_bindir}/nvidia-settings
-%{_datadir}/applications/*nvidia-settings.desktop
-%{_mandir}/man1/nvidia-settings.1.gz
+#ghost %{_bindir}/nvidia-settings
+%{_bindir}/nvidia-settings-%{nserie}
+#ghost %{_mandir}/man1/nvidia-settings.1.gz
+%{_mandir}/man1/nvidia-settings-%{nserie}.1.gz
 
+%exclude %{_datadir}/applications/*nvidia-settings.desktop
 
 %changelog
-* Thu May 30 2013 Nicolas Chauvet <kwizart@gmail.com> - 1.0-29
-- Update to 304.88
-- Provide nvidia-304xx-settings for the 304xx serie
+* Sun Jul 21 2013 Nicolas Chauvet <kwizart@gmail.com> - 319.32-1
+- Build an empty package to workaround yum issue with obsoletes
+  using nvidia-settings-current build from sources binary
 
-* Thu Oct 18 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-27
-- Update to 304.60
+* Thu Jun 27 2013 Nicolas Chauvet <kwizart@gmail.com> - 1.0-33
+- Update to 319.32
+
+* Fri May 24 2013 Leigh Scott <leigh123linux@googlemail.com> - 1.0-32
+- Update to 319.23
+
+* Mon May 13 2013 Leigh Scott <leigh123linux@googlemail.com> - 1.0-31
+- Update to 319.17
+- add build requires m4
+
+* Mon Mar 11 2013 Nicolas Chauvet <kwizart@gmail.com> - 1.0-30
+- Update to 313.26
+- Add Alternatives support
+- Drop patch needed for older 173xx/96xx series.
+  Thoses will use nvidia-settings-legacy instead
+- Build libXNVCtrl with our %%optflags
+- Split the desktop file in a sub-package
+
+* Wed Jan 16 2013 Leigh Scott <leigh123linux@googlemail.com> - 1.0-29
+- Update to 313.18
+
+* Sat Dec 01 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-28
+- Update to 310.19
+
+* Tue Oct 16 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-27
+- Update to 310.14
 
 * Mon Sep 24 2012 Leigh Scott <leigh123linux@googlemail.com> - 1.0-26
 - Update to 304.51
@@ -191,7 +247,7 @@ rm -rf $RPM_BUILD_ROOT
 * Wed Oct 21 2009 kwizart < kwizart at gmail.com > - 1.0-3.1
 - Update internal to 190.42
 
-* Thu Jul 15 2009 kwizart < kwizart at gmail.com > - 1.0-3
+* Wed Jul 15 2009 kwizart < kwizart at gmail.com > - 1.0-3
 - Update internal to 185.18.14
 
 * Tue Mar  3 2009 kwizart < kwizart at gmail.com > - 1.0-2.1

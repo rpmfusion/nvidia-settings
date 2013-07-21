@@ -98,13 +98,13 @@ desktop-file-install --vendor "rpmfusion" \
 #Move the binary elsewhere
 mv $RPM_BUILD_ROOT%{_bindir}/nvidia-settings \
     $RPM_BUILD_ROOT%{_bindir}/nvidia-settings-%{nserie}
-touch $RPM_BUILD_ROOT%{_bindir}/nvidia-settings
+#touch $RPM_BUILD_ROOT%{_bindir}/nvidia-settings
 chmod 0755 $RPM_BUILD_ROOT%{_bindir}/nvidia-settings*
 
 #Move the manpage elsewhere
 mv $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings.1.gz \
     $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings-%{nserie}.1.gz
-touch $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings.1.gz
+#touch $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings.1.gz
 chmod 0644 $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings*
 
 

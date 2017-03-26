@@ -7,7 +7,7 @@
 
 Name:           nvidia-settings
 Version:        %{nversion}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -133,6 +133,9 @@ rm -rf $RPM_BUILD_ROOT
 %exclude %{_datadir}/applications/*nvidia-settings.desktop
 
 %changelog
+* Sun Mar 26 2017 RPM Fusion Release Engineering <kwizart@rpmfusion.org> - 319.32-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Sun Jul 21 2013 Nicolas Chauvet <kwizart@gmail.com> - 319.32-1
 - Build an empty package to workaround yum issue with obsoletes
   using nvidia-settings-current build from sources binary

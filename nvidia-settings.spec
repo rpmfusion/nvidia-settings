@@ -1,18 +1,12 @@
-# We use the driver version as a snapshot internal number
-# The real version of the package remains 1.0
-# This will prevent missunderstanding and versioning changes on the nvidia driver
-%global nversion  384.59
-%global nserie    current
-
 Name:           nvidia-settings
-Version:        %{nversion}
+Version:        384.59
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
 License:        GPLv2+
 URL:            https://download.nvidia.com/XFree86/nvidia-settings/
-Source0:        %{url}/nvidia-settings-%{nversion}.tar.bz2
+Source0:        %{url}/nvidia-settings-%{version}.tar.bz2
 
 ExclusiveArch: i686 x86_64 armv7hl
 
@@ -32,21 +26,17 @@ BuildRequires:  m4
 BuildRequires:  mesa-libGL-devel
 
 
-Provides: nvidia-settings-nversion = %{nversion}
-
-
-
 %description
 The nvidia-settings utility is a tool for configuring the NVIDIA graphics
 driver.  It operates by communicating with the NVIDIA X driver, querying
 and updating state as appropriate.
 
 This communication is done with the NV-CONTROL X extension.
-nvidia-settings is compatible with driver up to %{nversion}.
+nvidia-settings is compatible with driver %{version}.
 
 
 %prep
-%setup -q -n nvidia-settings-%{nversion}
+%setup -q
 # We are building from source
 rm -rf src/libXNVCtrl/libXNVCtrl.a
 
@@ -56,7 +46,7 @@ sed -i -e 's|-lXxf86vm|-lXxf86vm -ldl -lm|g' Makefile
 %build
 # no job control
 export CFLAGS="%{optflags}"
-export CFLAGS="%{optflags}"
+export LDFLAGS="%{?__global_ldflags}"
 pushd src/libXNVCtrl
   make
 popd
@@ -70,35 +60,19 @@ make  \
 %install
 %make_install INSTALL="install -p"
 
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
+mkdir -p %{buildroot}%{_datadir}/applications
 
 # Desktop entry for nvidia-settings
-desktop-file-install --vendor "rpmfusion" \
-    --dir $RPM_BUILD_ROOT%{_datadir}/applications/ \
+desktop-file-install --vendor \
+    --dir %{buildroot}%{_datadir}/applications/ \
     doc/nvidia-settings.desktop
-
-#Move the binary elsewhere
-mv $RPM_BUILD_ROOT%{_bindir}/nvidia-settings \
-    $RPM_BUILD_ROOT%{_sbindir}/nvidia-settings
-#touch $RPM_BUILD_ROOT%{_bindir}/nvidia-settings
-chmod 0755 $RPM_BUILD_ROOT%{_bindir}/nvidia-settings*
-
-#Move the manpage elsewhere
-mv $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings.1.gz \
-    $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings-%{nserie}.1.gz
-#touch $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings.1.gz
-chmod 0644 $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings*
-
 
 
 %files
 %doc doc/*.txt
-#ghost %{_bindir}/nvidia-settings
-%{_bindir}/nvidia-settings-%{nserie}
-#ghost %{_mandir}/man1/nvidia-settings.1.gz
-%{_mandir}/man1/nvidia-settings-%{nserie}.1.gz
+%{_bindir}/nvidia-settings
+%{_mandir}/man1/nvidia-settings.1.*
 
-%exclude %{_datadir}/applications/*nvidia-settings.desktop
 
 %changelog
 * Thu Aug 03 2017 Nicolas Chauvet <kwizart@gmail.com> - 384.59-1

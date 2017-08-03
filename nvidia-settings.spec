@@ -1,33 +1,25 @@
 # We use the driver version as a snapshot internal number
 # The real version of the package remains 1.0
 # This will prevent missunderstanding and versioning changes on the nvidia driver
-%global nversion  319.32
-%global npriority $(echo %{nversion} | cut -f 1 -d ".")
+%global nversion  384.59
 %global nserie    current
 
 Name:           nvidia-settings
 Version:        %{nversion}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
 License:        GPLv2+
-URL:            ftp://download.nvidia.com/XFree86/nvidia-settings/
-Source0:        ftp://download.nvidia.com/XFree86/nvidia-settings/nvidia-settings-%{nversion}.tar.bz2
-Patch0:         nvidia-settings-256.35-validate.patch
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+URL:            https://download.nvidia.com/XFree86/nvidia-settings/
+Source0:        %{url}/nvidia-settings-%{nversion}.tar.bz2
 
-%if 0%{?fedora} > 11 || 0%{?rhel} > 5
 ExclusiveArch: i686 x86_64 armv7hl
-%else 0%{?fedora} == 11
-ExclusiveArch: i586 x86_64
-%else
-ExclusiveArch: i386 x86_64
-%endif
 
 BuildRequires:  desktop-file-utils
 
-BuildRequires:  gtk2-devel
+BuildRequires:  gtk3-devel
+#We are using the internal version
 #BuildRequires:  libXNVCtrl-devel
 BuildRequires:  libXxf86vm-devel
 BuildRequires:  libXext-devel
@@ -39,9 +31,6 @@ BuildRequires:  m4
 #BuildRequires: xorg-x11-drv-nvidia-devel
 BuildRequires:  mesa-libGL-devel
 
-Obsoletes: nvidia-settings-desktop < 319.32
-#Requires(post): %{_sbindir}/alternatives
-#Requires(postun): %{_sbindir}/alternatives
 
 Provides: nvidia-settings-nversion = %{nversion}
 
@@ -55,17 +44,10 @@ and updating state as appropriate.
 This communication is done with the NV-CONTROL X extension.
 nvidia-settings is compatible with driver up to %{nversion}.
 
-#package desktop
-#Summary:         Desktop file for %{name}
-#Group:           Applications/System
-#
-#description desktop
-#This package provides the desktop file of the %{name} package.
-
 
 %prep
 %setup -q -n nvidia-settings-%{nversion}
-%patch0 -p1 -b .validate
+# We are building from source
 rm -rf src/libXNVCtrl/libXNVCtrl.a
 
 sed -i -e 's|/usr/local|%{_prefix}|g' utils.mk
@@ -73,7 +55,8 @@ sed -i -e 's|-lXxf86vm|-lXxf86vm -ldl -lm|g' Makefile
 
 %build
 # no job control
-export CFLAGS="$RPM_OPT_FLAGS"
+export CFLAGS="%{optflags}"
+export CFLAGS="%{optflags}"
 pushd src/libXNVCtrl
   make
 popd
@@ -81,12 +64,11 @@ make  \
   NVDEBUG=1 \
   NV_VERBOSE=1 \
   X_LDFLAGS="-L%{_libdir}" \
-  CC_ONLY_CFLAGS="$RPM_OPT_FLAGS" || :
+  CC_ONLY_CFLAGS="%{optflags}" || :
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
+%make_install INSTALL="install -p"
 
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 
@@ -97,7 +79,7 @@ desktop-file-install --vendor "rpmfusion" \
 
 #Move the binary elsewhere
 mv $RPM_BUILD_ROOT%{_bindir}/nvidia-settings \
-    $RPM_BUILD_ROOT%{_bindir}/nvidia-settings-%{nserie}
+    $RPM_BUILD_ROOT%{_sbindir}/nvidia-settings
 #touch $RPM_BUILD_ROOT%{_bindir}/nvidia-settings
 chmod 0755 $RPM_BUILD_ROOT%{_bindir}/nvidia-settings*
 
@@ -108,22 +90,8 @@ mv $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings.1.gz \
 chmod 0644 $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings*
 
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
-%post
-#{_sbindir}/alternatives \
-#  --install %{_bindir}/nvidia-settings nvidia-settings %{_bindir}/nvidia-settings-%{nserie} %{npriority} \
-#  --slave %{_mandir}/man1/nvidia-settings.1.gz nvidia-settings.1.gz %{_mandir}/man1/nvidia-settings-%{nserie}.1.gz || :
-
-
-%postun
-#if [ $1 -eq 0 ]; then
-  %{_sbindir}/alternatives --remove nvidia-settings %{_bindir}/%{name}-%{nserie} &>/dev/null  || :
-#fi || :
 
 %files
-%defattr(-,root,root,-)
 %doc doc/*.txt
 #ghost %{_bindir}/nvidia-settings
 %{_bindir}/nvidia-settings-%{nserie}
@@ -133,6 +101,9 @@ rm -rf $RPM_BUILD_ROOT
 %exclude %{_datadir}/applications/*nvidia-settings.desktop
 
 %changelog
+* Thu Aug 03 2017 Nicolas Chauvet <kwizart@gmail.com> - 384.59-1
+- Update to 384.59
+
 * Sun Mar 26 2017 RPM Fusion Release Engineering <kwizart@rpmfusion.org> - 319.32-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 

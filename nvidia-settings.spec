@@ -8,7 +8,7 @@ License:        GPLv2+
 URL:            https://download.nvidia.com/XFree86/nvidia-settings/
 Source0:        %{url}/nvidia-settings-%{version}.tar.bz2
 
-ExclusiveArch: i686 x86_64 armv7hl
+ExclusiveArch: i686 x86_64 armv7hl aarch64 ppc64le
 
 BuildRequires:  desktop-file-utils
 

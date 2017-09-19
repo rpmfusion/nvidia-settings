@@ -11,20 +11,20 @@ Source0:        %{url}/nvidia-settings-%{version}.tar.bz2
 ExclusiveArch: i686 x86_64 armv7hl aarch64 ppc64le
 
 BuildRequires:  desktop-file-utils
+BuildRequires:  hostname
 
 BuildRequires:  gtk2-devel
+%if 0%{?fedora} || 0%{?rhel} > 6
 BuildRequires:  gtk3-devel
-#We are using the internal version
-#BuildRequires:  libXNVCtrl-devel
+%endif
 BuildRequires:  libXxf86vm-devel
 BuildRequires:  libXext-devel
 BuildRequires:  libXrandr-devel
 BuildRequires:  libXv-devel
 BuildRequires:  libvdpau-devel
 BuildRequires:  m4
-#Needed for FBConfig table - Uneeded if GLX_VERSION_1_3
-#BuildRequires: xorg-x11-drv-nvidia-devel
 BuildRequires:  mesa-libGL-devel
+BuildRequires:  pkgconfig(dbus-1)
 
 
 %description
@@ -42,6 +42,7 @@ nvidia-settings is compatible with driver %{version}.
 rm -rf src/libXNVCtrl/libXNVCtrl.a
 
 sed -i -e 's|/usr/local|%{_prefix}|g' utils.mk
+sed -i -e 's|/lib$|/%{_lib}|g' utils.mk
 sed -i -e 's|-lXxf86vm|-lXxf86vm -ldl -lm|g' Makefile
 
 %build
@@ -49,29 +50,52 @@ sed -i -e 's|-lXxf86vm|-lXxf86vm -ldl -lm|g' Makefile
 export CFLAGS="%{optflags}"
 export LDFLAGS="%{?__global_ldflags}"
 pushd src/libXNVCtrl
-  make
+  make \
+  NVDEBUG=1 \
+  NV_VERBOSE=1 \
+  X_CFLAGS="${CFLAGS}"
+
 popd
 make  \
   NVDEBUG=1 \
   NV_VERBOSE=1 \
+  STRIP_CMD=true NV_KEEP_UNSTRIPPED_BINARIES=1 \
   X_LDFLAGS="-L%{_libdir}" \
-  CC_ONLY_CFLAGS="%{optflags}" || :
+  CC_ONLY_CFLAGS="%{optflags}"
+(cd src/_out/Linux_*/ ; for i in %{name} libnvidia-gtk{2,3}.so ; do cp $i.unstripped $i; done ; cd -)
 
 
 %install
 %make_install INSTALL="install -p"
 
-mkdir -p %{buildroot}%{_datadir}/applications
-
 # Desktop entry for nvidia-settings
-desktop-file-install --vendor \
-    --dir %{buildroot}%{_datadir}/applications/ \
-    doc/nvidia-settings.desktop
+mkdir -p %{buildroot}%{_datadir}/applications
+install -m 0644 doc/nvidia-settings.desktop \
+  %{buildroot}%{_datadir}/applications
+
+sed -i -e 's|__UTILS_PATH__/||' -e 's|__PIXMAP_PATH__/||' \
+  -e 's|nvidia-settings.png|nvidia-settings|' \
+  -e 's|__NVIDIA_SETTINGS_DESKTOP_CATEGORIES__|Application;Settings;|' \
+  %{buildroot}%{_datadir}/applications/%{name}.desktop
+
+desktop-file-validate \
+  %{buildroot}%{_datadir}/applications/%{name}.desktop
+
+# Pixmap installation
+mkdir -p %{buildroot}%{_datadir}/pixmap
+install -pm 0644 doc/nvidia-settings.png \
+  %{buildroot}%{_datadir}/pixmap
 
 
 %files
 %doc doc/*.txt
 %{_bindir}/nvidia-settings
+%{_libdir}/libnvidia-gtk?.so.*
+%if 0%{?fedora} || 0%{?rhel} > 6
+%exclude %{_libdir}/libnvidia-gtk2.so.*
+%endif
+%{_datadir}/pixmap/%{name}.png
+%{_datadir}/applications/%{name}.desktop
 %{_mandir}/man1/nvidia-settings.1.*
 
 

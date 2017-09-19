@@ -12,6 +12,7 @@ ExclusiveArch: i686 x86_64 armv7hl
 
 BuildRequires:  desktop-file-utils
 
+BuildRequires:  gtk2-devel
 BuildRequires:  gtk3-devel
 #We are using the internal version
 #BuildRequires:  libXNVCtrl-devel

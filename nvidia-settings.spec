@@ -1,5 +1,5 @@
 Name:           nvidia-settings
-Version:        384.59
+Version:        384.90
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
@@ -100,6 +100,9 @@ install -pm 0644 doc/nvidia-settings.png \
 
 
 %changelog
+* Fri Sep 22 2017 Leigh Scott <leigh123linux@googlemail.com> - 384.90-1
+- Update to 384.90
+
 * Thu Aug 03 2017 Nicolas Chauvet <kwizart@gmail.com> - 384.59-1
 - Update to 384.59
 

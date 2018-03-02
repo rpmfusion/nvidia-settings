@@ -1,6 +1,6 @@
 Name:           nvidia-settings
 Version:        390.25
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -100,6 +100,9 @@ install -pm 0644 doc/nvidia-settings.png \
 
 
 %changelog
+* Fri Mar 02 2018 RPM Fusion Release Engineering <leigh123linux@googlemail.com> - 390.25-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
 * Mon Jan 29 2018 Leigh Scott <leigh123linux@googlemail.com> - 390.25-1
 - Update to 390.25
 

@@ -1,6 +1,6 @@
 Name:           nvidia-settings
-Version:        390.25
-Release:        2%{?dist}
+Version:        390.42
+Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -8,7 +8,7 @@ License:        GPLv2+
 URL:            https://download.nvidia.com/XFree86/nvidia-settings/
 Source0:        %{url}/nvidia-settings-%{version}.tar.bz2
 
-ExclusiveArch: i686 x86_64 armv7hl aarch64 ppc64le
+ExclusiveArch:  i686 x86_64 armv7hl
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  hostname
@@ -100,6 +100,9 @@ install -pm 0644 doc/nvidia-settings.png \
 
 
 %changelog
+* Tue Mar 13 2018 Leigh Scott <leigh123linux@googlemail.com> - 390.42-1
+- Update to 390.42
+
 * Fri Mar 02 2018 RPM Fusion Release Engineering <leigh123linux@googlemail.com> - 390.25-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 

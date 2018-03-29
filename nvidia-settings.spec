@@ -1,5 +1,5 @@
 Name:           nvidia-settings
-Version:        390.42
+Version:        390.48
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
@@ -100,6 +100,9 @@ install -pm 0644 doc/nvidia-settings.png \
 
 
 %changelog
+* Thu Mar 29 2018 Leigh Scott <leigh123linux@googlemail.com> - 390.48-1
+- Update to 390.48
+
 * Tue Mar 13 2018 Leigh Scott <leigh123linux@googlemail.com> - 390.42-1
 - Update to 390.42
 

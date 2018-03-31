@@ -66,7 +66,7 @@ make  \
 
 
 %install
-%make_install INSTALL="install -p"
+%make_install
 
 # Desktop entry for nvidia-settings
 mkdir -p %{buildroot}%{_datadir}/applications
@@ -86,6 +86,7 @@ mkdir -p %{buildroot}%{_datadir}/pixmap
 install -pm 0644 doc/nvidia-settings.png \
   %{buildroot}%{_datadir}/pixmap
 
+%ldconfig_scriptlets
 
 %files
 %doc doc/*.txt

@@ -1,12 +1,14 @@
 Name:           nvidia-settings
 Version:        390.48
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
 License:        GPLv2+
 URL:            https://download.nvidia.com/XFree86/nvidia-settings/
 Source0:        %{url}/nvidia-settings-%{version}.tar.bz2
+Source1:        %{name}-user.desktop
+Source2:        %{name}.appdata.xml
 
 ExclusiveArch:  i686 x86_64 armv7hl
 
@@ -75,32 +77,52 @@ install -m 0644 doc/nvidia-settings.desktop \
 
 sed -i -e 's|__UTILS_PATH__/||' -e 's|__PIXMAP_PATH__/||' \
   -e 's|nvidia-settings.png|nvidia-settings|' \
-  -e 's|__NVIDIA_SETTINGS_DESKTOP_CATEGORIES__|Application;Settings;|' \
+  -e 's|__NVIDIA_SETTINGS_DESKTOP_CATEGORIES__|System;Settings;|' \
   %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 desktop-file-validate \
   %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 # Pixmap installation
-mkdir -p %{buildroot}%{_datadir}/pixmap
+mkdir -p %{buildroot}%{_datadir}/pixmaps
 install -pm 0644 doc/nvidia-settings.png \
-  %{buildroot}%{_datadir}/pixmap
+  %{buildroot}%{_datadir}/pixmaps
+
+# User settings installation
+mkdir -p %{buildroot}%{_sysconfdir}/xdg/autostart
+install -pm 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/xdg/autostart/%{name}-user.desktop
+desktop-file-validate %{buildroot}%{_sysconfdir}/xdg/autostart/%{name}-user.desktop
+
+%if 0%{?fedora}
+# AppData installation
+mkdir -p %{buildroot}%{_datadir}/appdata
+install -p -m 0644 %{SOURCE2} %{buildroot}%{_datadir}/appdata/
+%endif
 
 %ldconfig_scriptlets
 
 %files
 %doc doc/*.txt
+%config %{_sysconfdir}/xdg/autostart/%{name}-user.desktop
 %{_bindir}/nvidia-settings
 %{_libdir}/libnvidia-gtk?.so.*
 %if 0%{?fedora} || 0%{?rhel} > 6
 %exclude %{_libdir}/libnvidia-gtk2.so.*
 %endif
-%{_datadir}/pixmap/%{name}.png
+%{_datadir}/pixmaps/%{name}.png
 %{_datadir}/applications/%{name}.desktop
+%if 0%{?fedora}
+%{_datadir}/appdata/%{name}.appdata.xml
+%endif
 %{_mandir}/man1/nvidia-settings.1.*
 
 
 %changelog
+* Mon Apr 09 2018 Nicolas Chauvet <kwizart@gmail.com> - 390.48-2
+- Fix typo on icon directory
+- Add appdata file
+- Bundle user desktop settings here.
+
 * Thu Mar 29 2018 Leigh Scott <leigh123linux@googlemail.com> - 390.48-1
 - Update to 390.48
 

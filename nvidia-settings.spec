@@ -1,6 +1,6 @@
 Name:           nvidia-settings
 Version:        390.48
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -18,6 +18,7 @@ BuildRequires:  hostname
 BuildRequires:  gtk2-devel
 %if 0%{?fedora} || 0%{?rhel} > 6
 BuildRequires:  gtk3-devel
+BuildRequires:  libappstream-glib
 %endif
 BuildRequires:  libXxf86vm-devel
 BuildRequires:  libXext-devel
@@ -97,6 +98,7 @@ desktop-file-validate %{buildroot}%{_sysconfdir}/xdg/autostart/%{name}-user.desk
 # AppData installation
 mkdir -p %{buildroot}%{_datadir}/appdata
 install -p -m 0644 %{SOURCE2} %{buildroot}%{_datadir}/appdata/
+appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.appdata.xml
 %endif
 
 %ldconfig_scriptlets
@@ -118,6 +120,9 @@ install -p -m 0644 %{SOURCE2} %{buildroot}%{_datadir}/appdata/
 
 
 %changelog
+* Tue Apr 10 2018 Leigh Scott <leigh123linux@googlemail.com> - 390.48-3
+- Validate appdata file
+
 * Mon Apr 09 2018 Nicolas Chauvet <kwizart@gmail.com> - 390.48-2
 - Fix typo on icon directory
 - Add appdata file

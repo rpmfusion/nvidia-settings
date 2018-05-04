@@ -1,6 +1,6 @@
 Name:           nvidia-settings
-Version:        390.48
-Release:        3%{?dist}
+Version:        396.24
+Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -10,7 +10,7 @@ Source0:        %{url}/nvidia-settings-%{version}.tar.bz2
 Source1:        %{name}-user.desktop
 Source2:        %{name}.appdata.xml
 
-ExclusiveArch:  i686 x86_64 armv7hl
+ExclusiveArch:  x86_64
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  hostname
@@ -120,6 +120,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 
 
 %changelog
+* Fri May 04 2018 Leigh Scott <leigh123linux@googlemail.com> - 396.24-1
+- Update to 396.24
+
 * Tue Apr 10 2018 Leigh Scott <leigh123linux@googlemail.com> - 390.48-3
 - Validate appdata file
 

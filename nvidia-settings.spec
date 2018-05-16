@@ -1,6 +1,6 @@
 Name:           nvidia-settings
-Version:        390.48
-Release:        3%{?dist}
+Version:        390.59
+Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -120,6 +120,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 
 
 %changelog
+* Wed May 16 2018 Leigh Scott <leigh123linux@googlemail.com> - 390.59-1
+- Update to 390.59
+
 * Tue Apr 10 2018 Leigh Scott <leigh123linux@googlemail.com> - 390.48-3
 - Validate appdata file
 

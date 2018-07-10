@@ -1,6 +1,6 @@
 Name:           nvidia-settings
 Version:        396.24
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -26,6 +26,7 @@ BuildRequires:  libXrandr-devel
 BuildRequires:  libXv-devel
 BuildRequires:  libvdpau-devel
 BuildRequires:  m4
+BuildRequires:  mesa-libEGL-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  pkgconfig(dbus-1)
 
@@ -120,6 +121,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 
 
 %changelog
+* Tue Jul 10 2018 Leigh Scott <leigh123linux@googlemail.com> - 396.24-2
+- Add build requires mesa-libEGL-devel
+
 * Fri May 04 2018 Leigh Scott <leigh123linux@googlemail.com> - 396.24-1
 - Update to 396.24
 

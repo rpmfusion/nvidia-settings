@@ -1,6 +1,6 @@
 Name:           nvidia-settings
-Version:        396.24
-Release:        2%{?dist}
+Version:        396.45
+Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -121,6 +121,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 
 
 %changelog
+* Fri Jul 20 2018 Leigh Scott <leigh123linux@googlemail.com> - 396.45-1
+- Update to 396.45
+
 * Tue Jul 10 2018 Leigh Scott <leigh123linux@googlemail.com> - 396.24-2
 - Add build requires mesa-libEGL-devel
 

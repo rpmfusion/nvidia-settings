@@ -1,6 +1,6 @@
 Name:           nvidia-settings
-Version:        396.45
-Release:        2%{?dist}
+Version:        396.51
+Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 Group:          Applications/System
@@ -121,6 +121,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 
 
 %changelog
+* Sat Aug 04 2018 Leigh Scott <leigh123linux@googlemail.com> - 396.51-1
+- Update to 396.51
+
 * Fri Jul 27 2018 RPM Fusion Release Engineering <sergio@serjux.com> - 396.45-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 

@@ -1,5 +1,5 @@
 Name:           nvidia-settings
-Version:        396.54
+Version:        410.57
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
@@ -121,6 +121,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 
 
 %changelog
+* Thu Sep 20 2018 Leigh Scott <leigh123linux@googlemail.com> - 410.57-1
+- Update to 410.57 beta
+
 * Wed Aug 22 2018 Leigh Scott <leigh123linux@googlemail.com> - 396.54-1
 - Update to 396.54
 

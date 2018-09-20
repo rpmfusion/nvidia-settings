@@ -13,6 +13,7 @@ Source2:        %{name}.appdata.xml
 ExclusiveArch:  x86_64
 
 BuildRequires:  desktop-file-utils
+BuildRequires:  gcc
 BuildRequires:  hostname
 
 BuildRequires:  gtk2-devel

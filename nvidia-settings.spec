@@ -4,7 +4,6 @@ Version:        410.57
 Release:        2%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
-Group:          Applications/System
 License:        GPLv2+
 URL:            https://download.nvidia.com/XFree86/nvidia-settings/
 Source0:        %{url}/nvidia-settings-%{version}.tar.bz2

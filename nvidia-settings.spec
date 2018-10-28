@@ -1,9 +1,9 @@
 Name:           nvidia-settings
-Version:        396.54
+Epoch:          3
+Version:        410.73
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
-Group:          Applications/System
 License:        GPLv2+
 URL:            https://download.nvidia.com/XFree86/nvidia-settings/
 Source0:        %{url}/nvidia-settings-%{version}.tar.bz2
@@ -13,6 +13,7 @@ Source2:        %{name}.appdata.xml
 ExclusiveArch:  x86_64
 
 BuildRequires:  desktop-file-utils
+BuildRequires:  gcc
 BuildRequires:  hostname
 
 BuildRequires:  gtk2-devel
@@ -121,6 +122,18 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 
 
 %changelog
+* Thu Oct 25 2018 Leigh Scott <leigh123linux@googlemail.com> - 3:410.73-1
+- Update to 410.73 release
+
+* Tue Oct 16 2018 Leigh Scott <leigh123linux@googlemail.com> - 3:410.66-1
+- Update to 410.66 release
+
+* Fri Sep 21 2018 Leigh Scott <leigh123linux@googlemail.com> - 3:410.57-2
+- Match the cuda repo epoch
+
+* Thu Sep 20 2018 Leigh Scott <leigh123linux@googlemail.com> - 410.57-1
+- Update to 410.57 beta
+
 * Wed Aug 22 2018 Leigh Scott <leigh123linux@googlemail.com> - 396.54-1
 - Update to 396.54
 

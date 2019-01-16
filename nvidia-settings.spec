@@ -1,6 +1,6 @@
 Name:           nvidia-settings
 Epoch:          3
-Version:        415.25
+Version:        415.27
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
@@ -122,6 +122,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 
 
 %changelog
+* Wed Jan 16 2019 Leigh Scott <leigh123linux@googlemail.com> - 3:415.27-1
+- Update to 415.27 release
+
 * Wed Dec 26 2018 Leigh Scott <leigh123linux@googlemail.com> - 3:415.25-1
 - Update to 415.25 release
 

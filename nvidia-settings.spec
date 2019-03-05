@@ -1,7 +1,7 @@
 Name:           nvidia-settings
 Epoch:          3
 Version:        418.43
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 License:        GPLv2+
@@ -122,6 +122,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 
 
 %changelog
+* Tue Mar 05 2019 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 3:418.43-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
 * Fri Feb 22 2019 Leigh Scott <leigh123linux@googlemail.com> - 3:418.43-1
 - Update to 418.43 release
 

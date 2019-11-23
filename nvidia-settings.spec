@@ -1,6 +1,6 @@
 Name:           nvidia-settings
 Epoch:          3
-Version:        430.40
+Version:        440.36
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
@@ -122,6 +122,24 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 
 
 %changelog
+* Fri Nov 22 2019 Leigh Scott <leigh123linux@googlemail.com> - 3:440.36-1
+- Update to 440.36 release
+
+* Mon Nov 04 2019 Leigh Scott <leigh123linux@gmail.com> - 3:440.31-1
+- Update to 440.31 release
+
+* Thu Oct 17 2019 Leigh Scott <leigh123linux@googlemail.com> - 3:440.26-1
+- Update to 440.26 beta
+
+* Fri Aug 30 2019 Leigh Scott <leigh123linux@googlemail.com> - 3:435.21-1
+- Update to 435.21 release
+
+* Tue Aug 13 2019 Leigh Scott <leigh123linux@googlemail.com> - 3:435.17-1
+- Update to 435.17 beta
+
+* Sat Aug 10 2019 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 3:430.40-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Mon Jul 29 2019 Leigh Scott <leigh123linux@googlemail.com> - 3:430.40-1
 - Update to 430.40 release
 

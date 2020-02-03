@@ -1,7 +1,7 @@
 Name:           nvidia-settings
 Epoch:          3
-Version:        440.44
-Release:        2%{?dist}
+Version:        440.59
+Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 License:        GPLv2+
@@ -124,6 +124,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 
 
 %changelog
+* Mon Feb 03 2020 Leigh Scott <leigh123linux@gmail.com> - 3:440.59-1
+- Update to 440.59 release
+
 * Thu Jan 30 2020 Leigh Scott <leigh123linux@gmail.com> - 3:440.44-2
 - Add gcc-10 build fix
 

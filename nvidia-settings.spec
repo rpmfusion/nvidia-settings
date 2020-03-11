@@ -1,6 +1,6 @@
 Name:           nvidia-settings
 Epoch:          3
-Version:        430.40
+Version:        440.64
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
@@ -9,6 +9,8 @@ URL:            https://download.nvidia.com/XFree86/nvidia-settings/
 Source0:        %{url}/nvidia-settings-%{version}.tar.bz2
 Source1:        %{name}-user.desktop
 Source2:        %{name}.appdata.xml
+# https://github.com/NVIDIA/nvidia-settings/pull/47
+Patch0:         gcc-10.patch
 
 ExclusiveArch:  x86_64
 
@@ -42,7 +44,7 @@ nvidia-settings is compatible with driver %{version}.
 
 
 %prep
-%setup -q
+%autosetup -p1
 # We are building from source
 rm -rf src/libXNVCtrl/libXNVCtrl.a
 
@@ -122,6 +124,36 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 
 
 %changelog
+* Fri Feb 28 2020 leigh123linux <leigh123linux@googlemail.com> - 3:440.64-1
+- Update to 440.64 release
+
+* Mon Feb 03 2020 Leigh Scott <leigh123linux@gmail.com> - 3:440.59-1
+- Update to 440.59 release
+
+* Thu Jan 30 2020 Leigh Scott <leigh123linux@gmail.com> - 3:440.44-2
+- Add gcc-10 build fix
+
+* Wed Dec 11 2019 Leigh Scott <leigh123linux@googlemail.com> - 3:440.44-1
+- Update to 440.44 release
+
+* Fri Nov 22 2019 Leigh Scott <leigh123linux@googlemail.com> - 3:440.36-1
+- Update to 440.36 release
+
+* Mon Nov 04 2019 Leigh Scott <leigh123linux@gmail.com> - 3:440.31-1
+- Update to 440.31 release
+
+* Thu Oct 17 2019 Leigh Scott <leigh123linux@googlemail.com> - 3:440.26-1
+- Update to 440.26 beta
+
+* Fri Aug 30 2019 Leigh Scott <leigh123linux@googlemail.com> - 3:435.21-1
+- Update to 435.21 release
+
+* Tue Aug 13 2019 Leigh Scott <leigh123linux@googlemail.com> - 3:435.17-1
+- Update to 435.17 beta
+
+* Sat Aug 10 2019 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 3:430.40-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Mon Jul 29 2019 Leigh Scott <leigh123linux@googlemail.com> - 3:430.40-1
 - Update to 430.40 release
 

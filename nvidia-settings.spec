@@ -1,6 +1,6 @@
 Name:           nvidia-settings
 Epoch:          3
-Version:        440.82
+Version:        440.100
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
@@ -9,8 +9,6 @@ URL:            https://download.nvidia.com/XFree86/nvidia-settings/
 Source0:        %{url}/nvidia-settings-%{version}.tar.bz2
 Source1:        %{name}-user.desktop
 Source2:        %{name}.appdata.xml
-# https://github.com/NVIDIA/nvidia-settings/pull/47
-Patch0:         gcc-10.patch
 
 ExclusiveArch:  x86_64
 
@@ -124,6 +122,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 
 
 %changelog
+* Thu Jun 25 2020 Leigh Scott <leigh123linux@gmail.com> - 3:440.100-1
+- Update to 440.100 release
+
 * Tue Apr 07 2020 leigh123linux <leigh123linux@googlemail.com> - 3:440.82-1
 - Update to 440.82 release
 

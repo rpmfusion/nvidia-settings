@@ -1,6 +1,6 @@
 Name:           nvidia-settings
 Epoch:          3
-Version:        455.38
+Version:        455.45.01
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
@@ -122,6 +122,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 
 
 %changelog
+* Wed Nov 18 2020 Leigh Scott <leigh123linux@gmail.com> - 3:455.45.01-1
+- Update to 455.45.01 release
+
 * Thu Oct 29 2020 Leigh Scott <leigh123linux@gmail.com> - 3:455.38-1
 - Update to 455.38 release
 

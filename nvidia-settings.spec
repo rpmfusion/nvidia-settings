@@ -31,6 +31,8 @@ BuildRequires:  mesa-libEGL-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  pkgconfig(dbus-1)
 
+Requires: nvidia-kmod-common >= %{epoch}:%{version}
+
 
 %description
 The nvidia-settings utility is a tool for configuring the NVIDIA graphics

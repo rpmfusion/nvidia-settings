@@ -1,6 +1,6 @@
 Name:           nvidia-settings
 Epoch:          3
-Version:        460.56
+Version:        460.67
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
@@ -30,6 +30,8 @@ BuildRequires:  m4
 BuildRequires:  mesa-libEGL-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  pkgconfig(dbus-1)
+
+Requires: nvidia-kmod-common >= %{epoch}:%{version}
 
 
 %description
@@ -122,6 +124,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 
 
 %changelog
+* Fri Mar 19 2021 Leigh Scott <leigh123linux@gmail.com> - 3:460.67-1
+- Update to 460.67 release
+
 * Thu Feb 25 2021 Leigh Scott <leigh123linux@gmail.com> - 3:460.56-1
 - Update to 460.56 release
 

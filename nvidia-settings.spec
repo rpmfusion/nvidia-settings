@@ -1,12 +1,12 @@
 Name:           nvidia-settings
 Epoch:          3
-Version:        465.27
+Version:        465.31
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 License:        GPLv2+
-URL:            https://github.com/NVIDIA/%{name}/
-Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
+URL:            https://download.nvidia.com/XFree86/%{name}/
+Source0:        %{url}/%{name}-%{version}.tar.bz2
 Source1:        %{name}-user.desktop
 Source2:        %{name}.appdata.xml
 
@@ -124,6 +124,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 
 
 %changelog
+* Sat May 22 2021 Leigh Scott <leigh123linux@gmail.com> - 3:465.31-1
+- Update to 465.31 release
+
 * Fri Apr 30 2021 Leigh Scott <leigh123linux@gmail.com> - 3:465.27-1
 - Update to 465.27 release
 

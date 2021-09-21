@@ -1,6 +1,6 @@
 Name:           nvidia-settings
 Epoch:          3
-Version:        470.63.01
+Version:        470.74
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
@@ -124,6 +124,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 
 
 %changelog
+* Tue Sep 21 2021 Leigh Scott <leigh123linux@gmail.com> - 3:470.74-1
+- Update to 470.74 release
+
 * Wed Aug 11 2021 Leigh Scott <leigh123linux@gmail.com> - 3:470.63.01-1
 - Update to 470.63.01 release
 

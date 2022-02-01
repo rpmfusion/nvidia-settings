@@ -1,6 +1,6 @@
 Name:           nvidia-settings
 Epoch:          3
-Version:        510.39.01
+Version:        510.47.03
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
@@ -17,10 +17,8 @@ BuildRequires:  gcc
 BuildRequires:  hostname
 
 BuildRequires:  gtk2-devel
-%if 0%{?fedora} || 0%{?rhel} > 6
 BuildRequires:  gtk3-devel
 BuildRequires:  libappstream-glib
-%endif
 BuildRequires:  libXxf86vm-devel
 BuildRequires:  libXext-devel
 BuildRequires:  libXrandr-devel
@@ -100,9 +98,9 @@ desktop-file-validate %{buildroot}%{_sysconfdir}/xdg/autostart/%{name}-user.desk
 
 %if 0%{?fedora}
 # AppData installation
-mkdir -p %{buildroot}%{_datadir}/appdata
-install -p -m 0644 %{SOURCE2} %{buildroot}%{_datadir}/appdata/
-appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.appdata.xml
+mkdir -p %{buildroot}%{_metainfodir}/
+install -p -m 0644 %{SOURCE2} %{buildroot}%{_metainfodir}/
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdata.xml
 %endif
 
 %ldconfig_scriptlets
@@ -111,19 +109,20 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 %doc doc/*.txt
 %config %{_sysconfdir}/xdg/autostart/%{name}-user.desktop
 %{_bindir}/nvidia-settings
-%{_libdir}/libnvidia-gtk?.so.*
-%if 0%{?fedora} || 0%{?rhel} > 6
+%{_libdir}/libnvidia-gtk3.so.*
 %exclude %{_libdir}/libnvidia-gtk2.so.*
-%endif
 %{_datadir}/pixmaps/%{name}.png
 %{_datadir}/applications/%{name}.desktop
 %if 0%{?fedora}
-%{_datadir}/appdata/%{name}.appdata.xml
+%{_metainfodir}/%{name}.appdata.xml
 %endif
 %{_mandir}/man1/nvidia-settings.1.*
 
 
 %changelog
+* Tue Feb 01 2022 Leigh Scott <leigh123linux@gmail.com> - 3:510.47.03-1
+- Update to 510.47.03 release
+
 * Wed Jan 12 2022 Leigh Scott <leigh123linux@gmail.com> - 3:510.39.01-1
 - Update to 510.39.01 beta
 

@@ -109,8 +109,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 %doc doc/*.txt
 %config %{_sysconfdir}/xdg/autostart/%{name}-user.desktop
 %{_bindir}/nvidia-settings
-%{_libdir}/libnvidia-gtk3.so.*
-%exclude %{_libdir}/libnvidia-gtk2.so.*
+%{_libdir}/libnvidia-gtk3.so.%{version}
+%{_libdir}/libnvidia-wayland-client.so.%{version}
+%exclude %{_libdir}/libnvidia-gtk2.so.%{version}
 %{_datadir}/pixmaps/%{name}.png
 %{_datadir}/applications/%{name}.desktop
 %if 0%{?fedora}

@@ -1,12 +1,12 @@
 Name:           nvidia-settings
 Epoch:          3
-Version:        495.44
+Version:        510.68.02
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 License:        GPLv2+
-URL:            https://download.nvidia.com/XFree86/%{name}/
-Source0:        %{url}/%{name}-%{version}.tar.bz2
+URL:            https://github.com/NVIDIA/%{name}
+Source0:        %url/archive/%{version}/%{name}-%{version}.tar.gz
 Source1:        %{name}-user.desktop
 Source2:        %{name}.appdata.xml
 
@@ -17,10 +17,8 @@ BuildRequires:  gcc
 BuildRequires:  hostname
 
 BuildRequires:  gtk2-devel
-%if 0%{?fedora} || 0%{?rhel} > 6
 BuildRequires:  gtk3-devel
 BuildRequires:  libappstream-glib
-%endif
 BuildRequires:  libXxf86vm-devel
 BuildRequires:  libXext-devel
 BuildRequires:  libXrandr-devel
@@ -100,9 +98,9 @@ desktop-file-validate %{buildroot}%{_sysconfdir}/xdg/autostart/%{name}-user.desk
 
 %if 0%{?fedora}
 # AppData installation
-mkdir -p %{buildroot}%{_datadir}/appdata
-install -p -m 0644 %{SOURCE2} %{buildroot}%{_datadir}/appdata/
-appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.appdata.xml
+mkdir -p %{buildroot}%{_metainfodir}/
+install -p -m 0644 %{SOURCE2} %{buildroot}%{_metainfodir}/
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdata.xml
 %endif
 
 %ldconfig_scriptlets
@@ -111,19 +109,38 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.ap
 %doc doc/*.txt
 %config %{_sysconfdir}/xdg/autostart/%{name}-user.desktop
 %{_bindir}/nvidia-settings
-%{_libdir}/libnvidia-gtk?.so.*
-%if 0%{?fedora} || 0%{?rhel} > 6
+%{_libdir}/libnvidia-gtk3.so.*
 %exclude %{_libdir}/libnvidia-gtk2.so.*
-%endif
 %{_datadir}/pixmaps/%{name}.png
 %{_datadir}/applications/%{name}.desktop
 %if 0%{?fedora}
-%{_datadir}/appdata/%{name}.appdata.xml
+%{_metainfodir}/%{name}.appdata.xml
 %endif
 %{_mandir}/man1/nvidia-settings.1.*
 
 
 %changelog
+* Tue Apr 26 2022 Nicolas Chauvet <kwizart@gmail.com> - 3:510.68.02-1
+- Update to 510.68.02
+
+* Wed Mar 23 2022 Leigh Scott <leigh123linux@gmail.com> - 3:510.60.02-1
+- Update to 510.60.02 release
+
+* Tue Feb 15 2022 Nicolas Chauvet <kwizart@gmail.com> - 3:510.54-1
+- Update to 510.54
+
+* Thu Feb 10 2022 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 3:510.47.03-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
+
+* Tue Feb 01 2022 Leigh Scott <leigh123linux@gmail.com> - 3:510.47.03-1
+- Update to 510.47.03 release
+
+* Wed Jan 12 2022 Leigh Scott <leigh123linux@gmail.com> - 3:510.39.01-1
+- Update to 510.39.01 beta
+
+* Tue Dec 14 2021 Leigh Scott <leigh123linux@gmail.com> - 3:495.46-1
+- Update to 495.46 release
+
 * Tue Oct 26 2021 Leigh Scott <leigh123linux@gmail.com> - 3:495.44-1
 - Update to 495.44 release
 

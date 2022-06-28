@@ -1,6 +1,6 @@
 Name:           nvidia-settings
 Epoch:          3
-Version:        515.48.07
+Version:        515.57
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
@@ -121,6 +121,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 
 
 %changelog
+* Tue Jun 28 2022 Leigh Scott <leigh123linux@gmail.com> - 3:515.57-1
+- Update to 515.57
+
 * Wed Jun 01 2022 Leigh Scott <leigh123linux@gmail.com> - 3:515.48.07-1
 - Update to 515.48.07
 

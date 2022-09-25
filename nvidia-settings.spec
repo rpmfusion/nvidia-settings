@@ -62,6 +62,7 @@ pushd src/libXNVCtrl
 
 popd
 make  \
+  %{_smp_mflags} \
   NVDEBUG=1 \
   NV_VERBOSE=1 \
   STRIP_CMD=true NV_KEEP_UNSTRIPPED_BINARIES=1 \

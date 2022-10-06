@@ -1,7 +1,7 @@
 Name:           nvidia-settings
 Epoch:          3
 Version:        515.76
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 License:        GPLv2+
@@ -29,7 +29,7 @@ BuildRequires:  mesa-libEGL-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  pkgconfig(dbus-1)
 
-Requires: nvidia-kmod-common >= %{epoch}:%{version}
+Requires: nvidia-kmod-common
 
 
 %description
@@ -122,6 +122,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 
 
 %changelog
+* Thu Oct 06 2022 Nicolas Chauvet <kwizart@gmail.com> - 3:515.76-3
+- Relax nvidia-kmod-common version requirement
+
 * Sun Sep 25 2022 Dennnis Gilmore <dennis@ausil.us> - 3:515.76-2
 - add aarch64 support
 

@@ -1,7 +1,7 @@
 Name:           nvidia-settings
 Epoch:          3
-Version:        515.76
-Release:        3%{?dist}
+Version:        520.56.06
+Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 License:        GPLv2+
@@ -122,6 +122,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 
 
 %changelog
+* Thu Oct 13 2022 Leigh Scott <leigh123linux@gmail.com> - 3:520.56.06-1
+- Update to 520.56.06
+
 * Thu Oct 06 2022 Nicolas Chauvet <kwizart@gmail.com> - 3:515.76-3
 - Relax nvidia-kmod-common version requirement
 

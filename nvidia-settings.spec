@@ -1,6 +1,6 @@
 Name:           nvidia-settings
 Epoch:          3
-Version:        520.56.06
+Version:        525.53
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
@@ -16,7 +16,6 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  gcc
 BuildRequires:  hostname
 
-BuildRequires:  gtk2-devel
 BuildRequires:  gtk3-devel
 BuildRequires:  libappstream-glib
 BuildRequires:  libXxf86vm-devel
@@ -55,20 +54,19 @@ sed -i -e 's|-lXxf86vm|-lXxf86vm -ldl -lm|g' Makefile
 export CFLAGS="%{optflags}"
 export LDFLAGS="%{?__global_ldflags}"
 pushd src/libXNVCtrl
-  make \
+%make_build \
   NVDEBUG=1 \
   NV_VERBOSE=1 \
   X_CFLAGS="${CFLAGS}"
 
 popd
-make  \
-  %{_smp_mflags} \
+%make_build \
   NVDEBUG=1 \
   NV_VERBOSE=1 \
   STRIP_CMD=true NV_KEEP_UNSTRIPPED_BINARIES=1 \
   X_LDFLAGS="-L%{_libdir}" \
   CC_ONLY_CFLAGS="%{optflags}"
-(cd src/_out/Linux_*/ ; for i in %{name} libnvidia-gtk{2,3}.so ; do cp $i.unstripped $i; done ; cd -)
+(cd src/_out/Linux_*/ ; for i in %{name} libnvidia-gtk3.so libnvidia-wayland-client.so; do cp $i.unstripped $i; done ; cd -)
 
 
 %install
@@ -112,7 +110,6 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 %{_bindir}/nvidia-settings
 %{_libdir}/libnvidia-gtk3.so.%{version}
 %{_libdir}/libnvidia-wayland-client.so.%{version}
-%exclude %{_libdir}/libnvidia-gtk2.so.%{version}
 %{_datadir}/pixmaps/%{name}.png
 %{_datadir}/applications/%{name}.desktop
 %if 0%{?fedora}
@@ -122,6 +119,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 
 
 %changelog
+* Thu Nov 10 2022 Leigh Scott <leigh123linux@gmail.com> - 3:525.53-1
+- Update to 525.53 beta
+
 * Thu Oct 13 2022 Leigh Scott <leigh123linux@gmail.com> - 3:520.56.06-1
 - Update to 520.56.06
 

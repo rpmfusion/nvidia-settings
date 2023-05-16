@@ -1,6 +1,6 @@
 Name:           nvidia-settings
 Epoch:          3
-Version:        515.105.01
+Version:        525.116.04
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
@@ -10,13 +10,12 @@ Source0:        %url/archive/%{version}/%{name}-%{version}.tar.gz
 Source1:        %{name}-user.desktop
 Source2:        %{name}.appdata.xml
 
-ExclusiveArch:  x86_64
+ExclusiveArch:  x86_64 aarch64
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc
 BuildRequires:  hostname
 
-BuildRequires:  gtk2-devel
 BuildRequires:  gtk3-devel
 BuildRequires:  libappstream-glib
 BuildRequires:  libXxf86vm-devel
@@ -29,7 +28,7 @@ BuildRequires:  mesa-libEGL-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  pkgconfig(dbus-1)
 
-Requires: nvidia-kmod-common >= %{epoch}:%{version}
+Requires: nvidia-kmod-common
 
 
 %description
@@ -55,19 +54,19 @@ sed -i -e 's|-lXxf86vm|-lXxf86vm -ldl -lm|g' Makefile
 export CFLAGS="%{optflags}"
 export LDFLAGS="%{?__global_ldflags}"
 pushd src/libXNVCtrl
-  make \
+%make_build \
   NVDEBUG=1 \
   NV_VERBOSE=1 \
   X_CFLAGS="${CFLAGS}"
 
 popd
-make  \
+%make_build \
   NVDEBUG=1 \
   NV_VERBOSE=1 \
   STRIP_CMD=true NV_KEEP_UNSTRIPPED_BINARIES=1 \
   X_LDFLAGS="-L%{_libdir}" \
   CC_ONLY_CFLAGS="%{optflags}"
-(cd src/_out/Linux_*/ ; for i in %{name} libnvidia-gtk{2,3}.so ; do cp $i.unstripped $i; done ; cd -)
+(cd src/_out/Linux_*/ ; for i in %{name} libnvidia-gtk3.so libnvidia-wayland-client.so; do cp $i.unstripped $i; done ; cd -)
 
 
 %install
@@ -111,7 +110,6 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 %{_bindir}/nvidia-settings
 %{_libdir}/libnvidia-gtk3.so.%{version}
 %{_libdir}/libnvidia-wayland-client.so.%{version}
-%exclude %{_libdir}/libnvidia-gtk2.so.%{version}
 %{_datadir}/pixmaps/%{name}.png
 %{_datadir}/applications/%{name}.desktop
 %if 0%{?fedora}
@@ -121,11 +119,33 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 
 
 %changelog
-* Fri Mar 31 2023 Nicolas Chauvet <kwizart@gmail.com> - 3:515.105.01-1
-- Update to 515.105.01
+* Tue May 16 2023 Nicolas Chauvet <kwizart@gmail.com> - 3:525.116.04-1
+- Update to 525.116.04
 
-* Fri Jan 06 2023 Nicolas Chauvet <kwizart@gmail.com> - 3:515.86.01-1
-- Update to 515.86.01
+* Thu Jan 05 2023 Leigh Scott <leigh123linux@gmail.com> - 3:525.78.01-1
+- Update to 525.78.01
+
+* Mon Nov 28 2022 Leigh Scott <leigh123linux@gmail.com> - 3:525.60.11-1
+- Update to 525.60.11
+
+* Thu Nov 10 2022 Leigh Scott <leigh123linux@gmail.com> - 3:525.53-1
+- Update to 525.53 beta
+
+* Thu Oct 13 2022 Leigh Scott <leigh123linux@gmail.com> - 3:520.56.06-1
+- Update to 520.56.06
+
+* Thu Oct 06 2022 Nicolas Chauvet <kwizart@gmail.com> - 3:515.76-3
+- Relax nvidia-kmod-common version requirement
+
+* Sun Sep 25 2022 Dennnis Gilmore <dennis@ausil.us> - 3:515.76-2
+- add aarch64 support
+
+* Wed Sep 21 2022 Leigh Scott <leigh123linux@gmail.com> - 3:515.76-1
+- Update to 515.76
+
+* Mon Aug 08 2022 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 3:515.65.01-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild and ffmpeg
+  5.1
 
 * Thu Aug 04 2022 Leigh Scott <leigh123linux@gmail.com> - 3:515.65.01-1
 - Update to 515.65.01

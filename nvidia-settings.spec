@@ -1,12 +1,13 @@
 Name:           nvidia-settings
 Epoch:          3
-Version:        535.98
+Version:        535.104.05
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 License:        GPLv2+
 URL:            https://github.com/NVIDIA/%{name}
-Source0:        %url/archive/%{version}/%{name}-%{version}.tar.gz
+#Source0:        %url/archive/%{version}/%{name}-%{version}.tar.gz
+Source0:        https://download.nvidia.com/XFree86/%{name}/%{name}-%{version}.tar.bz2
 Source1:        %{name}-user.desktop
 Source2:        %{name}.appdata.xml
 
@@ -119,6 +120,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 
 
 %changelog
+* Tue Aug 22 2023 Leigh Scott <leigh123linux@gmail.com> - 3:535.104.05-1
+- Update to 535.104.05
+
 * Wed Aug 09 2023 Leigh Scott <leigh123linux@gmail.com> - 3:535.98-1
 - Update to 535.98
 

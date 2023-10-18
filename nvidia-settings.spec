@@ -56,12 +56,14 @@ export CFLAGS="%{optflags}"
 export LDFLAGS="%{?__global_ldflags}"
 pushd src/libXNVCtrl
 %make_build \
+  LD_TARGET_EMULATION_FLAG="" \
   NVDEBUG=1 \
   NV_VERBOSE=1 \
   X_CFLAGS="${CFLAGS}"
 
 popd
 %make_build \
+  LD_TARGET_EMULATION_FLAG="" \
   NVDEBUG=1 \
   NV_VERBOSE=1 \
   STRIP_CMD=true NV_KEEP_UNSTRIPPED_BINARIES=1 \

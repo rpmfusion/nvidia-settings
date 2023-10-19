@@ -1,7 +1,7 @@
 Name:           nvidia-settings
 Epoch:          3
 Version:        545.23.06
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 License:        GPLv2+
@@ -49,6 +49,7 @@ rm -rf src/libXNVCtrl/libXNVCtrl.a
 sed -i -e 's|/usr/local|%{_prefix}|g' utils.mk
 sed -i -e 's|/lib$|/%{_lib}|g' utils.mk
 sed -i -e 's|-lXxf86vm|-lXxf86vm -ldl -lm|g' Makefile
+sed -i -e 's|aarch64elf|aarch64linux|g' utils.mk src/libXNVCtrl/utils.mk
 
 %build
 # no job control
@@ -56,14 +57,12 @@ export CFLAGS="%{optflags}"
 export LDFLAGS="%{?__global_ldflags}"
 pushd src/libXNVCtrl
 %make_build \
-  LD_TARGET_EMULATION_FLAG="" \
   NVDEBUG=1 \
   NV_VERBOSE=1 \
   X_CFLAGS="${CFLAGS}"
 
 popd
 %make_build \
-  LD_TARGET_EMULATION_FLAG="" \
   NVDEBUG=1 \
   NV_VERBOSE=1 \
   STRIP_CMD=true NV_KEEP_UNSTRIPPED_BINARIES=1 \
@@ -122,6 +121,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 
 
 %changelog
+* Thu Oct 19 2023 Leigh Scott <leigh123linux@gmail.com> - 3:545.23.06-2
+- Fix aarch64 emulation target name
+
 * Wed Oct 18 2023 Leigh Scott <leigh123linux@gmail.com> - 3:545.23.06-1
 - Update to 545.23.06 beta
 

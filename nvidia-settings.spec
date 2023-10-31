@@ -1,7 +1,7 @@
 Name:           nvidia-settings
 Epoch:          3
-Version:        545.23.06
-Release:        2%{?dist}
+Version:        545.29.02
+Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 License:        GPLv2+
@@ -121,6 +121,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 
 
 %changelog
+* Tue Oct 31 2023 Leigh Scott <leigh123linux@gmail.com> - 3:545.29.02-1
+- Update to 545.29.02 release
+
 * Thu Oct 19 2023 Leigh Scott <leigh123linux@gmail.com> - 3:545.23.06-2
 - Fix aarch64 emulation target name
 

@@ -1,6 +1,6 @@
 Name:           nvidia-settings
 Epoch:          3
-Version:        535.129.03
+Version:        545.29.06
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
@@ -49,6 +49,7 @@ rm -rf src/libXNVCtrl/libXNVCtrl.a
 sed -i -e 's|/usr/local|%{_prefix}|g' utils.mk
 sed -i -e 's|/lib$|/%{_lib}|g' utils.mk
 sed -i -e 's|-lXxf86vm|-lXxf86vm -ldl -lm|g' Makefile
+sed -i -e 's|aarch64elf|aarch64linux|g' utils.mk src/libXNVCtrl/utils.mk
 
 %build
 # no job control
@@ -120,8 +121,17 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 
 
 %changelog
-* Wed Nov 01 2023 Leigh Scott <leigh123linux@gmail.com> - 3:535.129.03-1
-- Update to 535.129.03
+* Wed Nov 22 2023 Leigh Scott <leigh123linux@gmail.com> - 3:545.29.06-1
+- Update to 545.29.06 release
+
+* Tue Oct 31 2023 Leigh Scott <leigh123linux@gmail.com> - 3:545.29.02-1
+- Update to 545.29.02 release
+
+* Thu Oct 19 2023 Leigh Scott <leigh123linux@gmail.com> - 3:545.23.06-2
+- Fix aarch64 emulation target name
+
+* Wed Oct 18 2023 Leigh Scott <leigh123linux@gmail.com> - 3:545.23.06-1
+- Update to 545.23.06 beta
 
 * Fri Sep 22 2023 Leigh Scott <leigh123linux@gmail.com> - 3:535.113.01-1
 - Update to 535.113.01

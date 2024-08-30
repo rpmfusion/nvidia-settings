@@ -1,6 +1,6 @@
 Name:           nvidia-settings
 Epoch:          3
-Version:        550.100
+Version:        550.107.02
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
@@ -121,6 +121,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 
 
 %changelog
+* Fri Aug 30 2024 Nicolas Chauvet <kwizart@gmail.com> - 3:550.107.02-1
+- Update to 550.107.02
+
 * Fri Jul 19 2024 Nicolas Chauvet <kwizart@gmail.com> - 3:550.100-1
 - Update to 550.100
 

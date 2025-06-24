@@ -1,6 +1,6 @@
 Name:           nvidia-settings
 Epoch:          3
-Version:        550.144.03
+Version:        570.153.02
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
@@ -28,6 +28,7 @@ BuildRequires:  m4
 BuildRequires:  mesa-libEGL-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  pkgconfig(dbus-1)
+BuildRequires:  vulkan-headers
 
 Requires: nvidia-kmod-common
 
@@ -121,17 +122,53 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 
 
 %changelog
-* Thu Jan 30 2025 Nicolas Chauvet <kwizart@gmail.com> - 3:550.144.03-1
-- Update to 550.144.03
+* Mon May 19 2025 Leigh Scott <leigh123linux@gmail.com> - 3:570.153.02-1
+- Update to 570.153.02 release
 
-* Wed Oct 30 2024 Nicolas Chauvet <kwizart@gmail.com> - 3:550.127.05-1
-- Update to 550.127.05
+* Sat Apr 19 2025 Leigh Scott <leigh123linux@gmail.com> - 3:570.144-1
+- Update to 570.144 release
 
-* Fri Aug 30 2024 Nicolas Chauvet <kwizart@gmail.com> - 3:550.107.02-1
-- Update to 550.107.02
+* Tue Mar 18 2025 Leigh Scott <leigh123linux@gmail.com> - 3:570.133.07-1
+- Update to 570.133.07 release
 
-* Fri Jul 19 2024 Nicolas Chauvet <kwizart@gmail.com> - 3:550.100-1
-- Update to 550.100
+* Thu Feb 27 2025 Leigh Scott <leigh123linux@gmail.com> - 3:570.124.04-1
+- Update to 570.124.04 release
+
+* Thu Jan 30 2025 Leigh Scott <leigh123linux@gmail.com> - 3:570.86.16-1
+- Update to 570.86.16 beta
+
+* Wed Jan 29 2025 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 3:565.77-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_42_Mass_Rebuild
+
+* Thu Dec 05 2024 Leigh Scott <leigh123linux@gmail.com> - 3:565.77-1
+- Update to 565.77 release
+
+* Tue Oct 22 2024 Leigh Scott <leigh123linux@gmail.com> - 3:565.57.01-1
+- Update to 565.57.01 beta
+
+* Wed Aug 21 2024 Leigh Scott <leigh123linux@gmail.com> - 3:560.35.03-1
+- Update to 560.35.03 Release
+
+* Tue Aug 06 2024 Leigh Scott <leigh123linux@gmail.com> - 3:560.31.02-1
+- Update to 560.31.02 beta
+
+* Sat Aug 03 2024 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 3:560.28.03-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_41_Mass_Rebuild
+
+* Tue Jul 23 2024 Leigh Scott <leigh123linux@gmail.com> - 3:560.28.03-1
+- Update to 560.28.03 beta
+
+* Tue Jul 02 2024 Leigh Scott <leigh123linux@gmail.com> - 3:555.58.02-1
+- Update to 555.58.02
+
+* Thu Jun 27 2024 Leigh Scott <leigh123linux@gmail.com> - 3:555.58-1
+- Update to 555.58 release
+
+* Thu Jun 06 2024 Leigh Scott <leigh123linux@gmail.com> - 3:555.52.04-1
+- Update to 555.52.04 beta
+
+* Tue May 21 2024 Leigh Scott <leigh123linux@gmail.com> - 3:555.42.02-1
+- Update to 555.42.02 beta
 
 * Fri Apr 26 2024 Leigh Scott <leigh123linux@gmail.com> - 3:550.78-1
 - Update to 550.78 release

@@ -1,7 +1,7 @@
 Name:           nvidia-settings
 Epoch:          3
-Version:        590.48.01
-Release:        2%{?dist}
+Version:        595.45.04
+Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 License:        GPLv2+
@@ -122,6 +122,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 
 
 %changelog
+* Fri Mar 06 2026 Leigh Scott <leigh123linux@gmail.com> - 3:595.45.04-1
+- Update to 595.45.04 beta
+
 * Mon Feb 02 2026 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 3:590.48.01-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_44_Mass_Rebuild
 

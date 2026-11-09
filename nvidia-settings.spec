@@ -1,7 +1,9 @@
+%undefine _ld_as_needed
+
 Name:           nvidia-settings
 Epoch:          3
 Version:        620.70.06
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 
 License:        GPLv2+
@@ -29,6 +31,7 @@ BuildRequires:  mesa-libEGL-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  pkgconfig(dbus-1)
 BuildRequires:  vulkan-headers
+BuildRequires:  wayland-devel
 
 Requires: nvidia-kmod-common
 
@@ -122,6 +125,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdat
 
 
 %changelog
+* Mon Nov 09 2026 Leigh Scott <leigh123linux@gmail.com> - 3:620.70.06-2
+- Fix missing wayland linking (rfbz#7587)
+
 * Thu Nov 05 2026 Leigh Scott <leigh123linux@gmail.com> - 3:620.70.06-1
 - Update to 620.70.06 release
 

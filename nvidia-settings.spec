@@ -71,7 +71,7 @@ popd
   NV_VERBOSE=1 \
   STRIP_CMD=true NV_KEEP_UNSTRIPPED_BINARIES=1 \
   X_LDFLAGS="-L%{_libdir}" \
-  CC_ONLY_CFLAGS="%{optflags}"
+  CC_ONLY_CFLAGS="%{optflags} -Wno-deprecated-declarations"
 (cd src/_out/Linux_*/ ; for i in %{name} libnvidia-gtk3.so libnvidia-wayland-client.so; do cp $i.unstripped $i; done ; cd -)
 
 
